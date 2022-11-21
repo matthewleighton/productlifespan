@@ -1,0 +1,11 @@
+{% extends './base.html' %}
+
+{% block title %}New Product{% endblock %}
+
+{% block content %}
+	<h1>{{ product.name }}</h1>
+	{% include 'products/product_form.html' %}
+{% endblock %}
+
+
+

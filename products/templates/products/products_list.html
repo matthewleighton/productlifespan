@@ -1,0 +1,16 @@
+<table class="table">
+	<tr>
+		<th>Name</th>
+		<th>Price</th>
+		<th>Purchase Date</th>
+	</tr>
+	{% for product in user_products %}
+		<tr>
+			<td><a href="{% url 'products:product' product.id %}">{{ product.name }}</a></td>
+			<td>{{ product.price }}</td>
+			<td>{{ product.purchase_date }}</td>
+		</tr>
+	{% endfor %}
+</table>
+
+<a href="{% url 'products:new' %}">Add Product</a>
