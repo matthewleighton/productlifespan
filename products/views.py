@@ -59,3 +59,13 @@ def product(request, product_id):
 	}
 
 	return render(request, 'products/product.html', context)
+
+def delete(request, product_id):
+	product = get_object_or_404(Product, pk=product_id)
+	product_name = product.name
+
+	product.delete()
+
+	messages.success(request, f'Product "{product_name}" deleted.')
+
+	return redirect(f'/')
