@@ -1,4 +1,4 @@
-<form action="", method="POST">
+<form action="{{ form_action }}", method="POST">
 	{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
 	{% csrf_token %}
