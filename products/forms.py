@@ -7,7 +7,8 @@ from .models import Product
 class ProductForm(forms.ModelForm):
 	class Meta:
 		model = Product
-		fields = '__all__'
+		# fields = '__all__'
+		fields = ['name', 'price', 'purchase_date', 'currency', 'owner']
 		widgets = {
 			'name': forms.TextInput(attrs={'class': 'form-control'}),
 			'price': forms.NumberInput(attrs={'class': 'form-control'}),
@@ -15,3 +16,11 @@ class ProductForm(forms.ModelForm):
 			'currency': forms.TextInput(attrs={'class': 'form-control'}),
 			'owner': forms.Select(attrs={'class': 'form-control'})
 		}
+
+# class LifespanForm(forms.ModelForm):
+# 	class Meta:
+# 		model = Product
+# 		fields = ['target_end_date']
+# 		widgets = {
+# 			'target_end_date'
+# 		}
