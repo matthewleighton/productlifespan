@@ -10,25 +10,26 @@
 		
 		<p>
 			<label for="target_end_date">Target End Date:</label>
-			<input type="date" name="target_end_date" id="target_end_date" class="form-control" onchange="target_end_date_changed(this)" autocomplete="off"/>
+			<input type="date" name="target_end_date" id="target_end_date" class="form-control" onchange="target_end_date_changed()" autocomplete="off"/>
 		</p>
 
 		<p>
 			<label for="target_age">Target Age:</label>
-			<input type="number" name="target_age" id="target_age" min="0" step="0.1" class="form-control" onchange="target_age_changed(this)" autocomplete="off"/>
+			<input type="number" name="target_age" id="target_age" min="0" step="0.1" class="form-control" onchange="target_age_changed()" autocomplete="off"/>
 		</p>
 
 		<p>
 			<label for="target_price_amount">Target Price Amount:</label>
-			<input type="number" name="target_price_amount" id="target_price_amount" min="0.0001" step="0.0001" class="form-control" onchange="target_price_amount_changed(this)" autocomplete="off"/>
+			<input type="number" name="target_price_amount" id="target_price_amount" min="0.0001" step="0.0001" class="form-control" onchange="target_price_amount_changed()" autocomplete="off"/>
 		</p>
 
 		<p>
 			<label for="target_price_period">Target Price Period:</label>
-			<select name="target_price_period" id="target_price_period" class="form-control" onchange="target_price_period_changed(this)">
-				<option value="year">Per Year</option>
-				<option value="month">Per Month</option>
-				<option value="day">Per Day</option>
+			<select name="target_price_period" id="target_price_period" class="form-control" onchange="target_price_period_changed()">
+				<option value="365.25" id="target_price_period_year">Per Year</option>
+				<option value="30.4375" id="target_price_period_month">Per Month</option>
+				<option value="7" id="target_price_period_year">Per Week</option>
+				<option value="1" id="target_price_period_day">Per Day</option>
 			</select>
 		</p>
 	</div>
