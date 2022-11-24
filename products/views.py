@@ -22,6 +22,7 @@ def index(request):
 def new(request):
 	if request.method == 'POST':
 		form = ProductForm(request.POST)
+
 		if form.is_valid():
 			new_product_id = form.save().id
 
@@ -39,7 +40,6 @@ def new(request):
 	}
 
 	return render(request, 'products/new.html', context)
-
 
 def product(request, product_id):
 	product = get_object_or_404(Product, pk=product_id)

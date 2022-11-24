@@ -61,14 +61,14 @@ function update_target_price_amount(target_age_days) {
 	divisor = target_age_days / target_price_period_days;
 
 	buy_price = buy_price_field.value;
-	new_target_price_amount = buy_price / divisor;
+	new_target_price_amount = (buy_price / divisor).toFixed(2);
 
 	target_price_amount_field.value = new_target_price_amount;
 }
 
 
 function update_target_age(target_age_days) {
-	target_age_years = target_age_days / 365.25;
+	target_age_years = (target_age_days / 365.25).toFixed(2);
 
 	target_age_field.value = target_age_years;
 }
@@ -83,6 +83,10 @@ function update_target_end_date(target_age_days) {
 	new_end_date_string = new_target_end_date.toISOString().split('T')[0];
 
 	target_end_date_field.value = new_end_date_string;
+}
+
+function initialize_fields() {
+	target_end_date_changed();
 }
 
 
@@ -105,3 +109,5 @@ purchase_date_field.addEventListener('change', update_lifespan_fields);
 // one which the user actually cares about - the other fields will change to fit
 // with the new price/purchase date.
 var last_edited_lifespan_field = 'target_end_date';
+
+initialize_fields();

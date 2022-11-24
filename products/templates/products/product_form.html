@@ -1,42 +1,127 @@
-<form action="{{ form_action }}", method="POST">
+<form class="row g-3" action="{{ form_action }}", method="POST">
+
 	{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
+	{{ form.errors }}
+	{{ form.non_field_errors }}
+
 	{% csrf_token %}
-	{{ form.as_p }}
+	
+  <div class="col-md-6">
+    <label for="id_name" class="form-label">Product Name</label>
+    <input type="text" class="form-control" id="id_name" name="name" value="{{product.name}}">
+  </div>
+  
+  <div class="col-md-6">
+    <label for="id_price" class="form-label">Product Price</label>
+    <input type="number" class="form-control" id="id_price" name="price" value="{{product.price}}">
+  </div>
+  
+  <div class="col-md-6">
+    <label for="id_purchase_date" class="form-label">Date Purchased</label>
+    <input type="date" class="form-control" id="id_purchase_date" name="purchase_date" value="{{product.purchase_date.isoformat}}">
+  </div>
+
+  <div class="col-md-6">
+    <label for="id_currency" class="form-label">Currency</label>
+    <input type="text" class="form-control" id="id_currency" name="currency" value="{{product.currency}}">
+  </div>
+
+  <hr/>
+
+  <div class="col-md-6">
+    <label for="target_end_date" class="form-label">Target End Date</label>
+    <input type="date" value="{{ product.target_end_date.isoformat }}" name="target_end_date" id="target_end_date" class="form-control" onchange="target_end_date_changed()" autocomplete="off"/>
+  </div>
+  
+  <div class="col-md-6">
+    <label for="target_age" class="form-label">Target Age (years)</label>
+    <input type="number" name="target_age" id="target_age" min="0" step="0.01" class="form-control" onchange="target_age_changed()" autocomplete="off"/>
+  </div>
+  
+  <div class="col-md-6">
+    <label for="target_price_amount" class="form-label">Target Price Amount</label>
+    <input type="number" name="target_price_amount" id="target_price_amount" min="0.01" step="0.01" class="form-control" onchange="target_price_amount_changed()" autocomplete="off"/>
+  </div>
+
+  <div class="col-md-6">
+    <label for="target_price_period" class="form-label">Target Price Period</label>
+    <select name="target_price_period" id="target_price_period" class="form-select" onchange="target_price_period_changed()">
+						<option value="365.25" id="target_price_period_year">Per Year</option>
+						<option value="30.4375" id="target_price_period_month">Per Month</option>
+						<option value="7" id="target_price_period_year">Per Week</option>
+						<option value="1" id="target_price_period_day">Per Day</option>
+					</select>
+  </div>
+
+	<!-- <input type="submit"> -->
+
+	<div class="col-12">
+	    <button type="submit" class="btn btn-primary">Create Product</button>
+  	</div>
 
 
-	<div>
-		<h3>Lifespan Form</h3>
-		
-		<p>
-			<label for="target_end_date">Target End Date:</label>
-			<input type="date" name="target_end_date" id="target_end_date" class="form-control" onchange="target_end_date_changed()" autocomplete="off"/>
-		</p>
+  	<!-- TODO: This is here temporarily, until the ability to login is added. -->
+  	<input type="hidden" id="id_owner" name="owner" value="2">
 
-		<p>
-			<label for="target_age">Target Age:</label>
-			<input type="number" name="target_age" id="target_age" min="0" step="0.1" class="form-control" onchange="target_age_changed()" autocomplete="off"/>
-		</p>
-
-		<p>
-			<label for="target_price_amount">Target Price Amount:</label>
-			<input type="number" name="target_price_amount" id="target_price_amount" min="0.0001" step="0.0001" class="form-control" onchange="target_price_amount_changed()" autocomplete="off"/>
-		</p>
-
-		<p>
-			<label for="target_price_period">Target Price Period:</label>
-			<select name="target_price_period" id="target_price_period" class="form-control" onchange="target_price_period_changed()">
-				<option value="365.25" id="target_price_period_year">Per Year</option>
-				<option value="30.4375" id="target_price_period_month">Per Month</option>
-				<option value="7" id="target_price_period_year">Per Week</option>
-				<option value="1" id="target_price_period_day">Per Day</option>
-			</select>
-		</p>
-	</div>
-
-
-	<input type="submit">
 </form>
+
+<!-- <div class="container">
+
+	<div class="row">
+		
+
+		<form action="{{ form_action }}", method="POST">
+			{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+			{% csrf_token %}
+
+			<div class="col-sm">
+				{{ form.as_p }}	
+			</div>
+
+
+
+			<div class="col-sm">
+				<h3>Lifespan Form</h3>
+				
+				<p>
+					<label for="target_end_date">Target End Date:</label>
+					<input type="date" value="{{ product.target_end_date.isoformat }}" name="target_end_date" id="target_end_date" class="form-control" onchange="target_end_date_changed()" autocomplete="off"/>
+				</p>
+
+				<p>
+					<label for="target_age">Target Age:</label>
+					<input type="number" name="target_age" id="target_age" min="0" step="0.01" class="form-control" onchange="target_age_changed()" autocomplete="off"/>
+				</p>
+
+				<p>
+					<label for="target_price_amount">Target Price Amount:</label>
+					<input type="number" name="target_price_amount" id="target_price_amount" min="0.01" step="0.01" class="form-control" onchange="target_price_amount_changed()" autocomplete="off"/>
+				</p>
+
+				<p>
+					<label for="target_price_period">Target Price Period:</label>
+					<select name="target_price_period" id="target_price_period" class="form-select" onchange="target_price_period_changed()">
+						<option value="365.25" id="target_price_period_year">Per Year</option>
+						<option value="30.4375" id="target_price_period_month">Per Month</option>
+						<option value="7" id="target_price_period_year">Per Week</option>
+						<option value="1" id="target_price_period_day">Per Day</option>
+					</select>
+				</p>
+			</div>
+
+
+		<div class="col-12">
+			<button type="submit" class="btn btn-primary">Sign in</button>
+		</div>
+		</form>
+	</div>
+</div> -->
+
+
+
+
 
 {% load static %}
 <script src="{% static 'products/product_form.js' %}"></script>
