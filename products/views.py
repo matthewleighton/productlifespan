@@ -10,10 +10,12 @@ from django.http import HttpResponse
 from .models import Product
 from .forms import ProductForm
 
+from datetime import datetime
+
 def index(request):
 	current_user_id = request.user.id
 
-	user_products = Product.objects.filter(owner=current_user_id).order_by('purchase_date')
+	user_products = Product.objects.filter(owner=current_user_id).order_by('-purchase_date')
 
 	context = {
 		'user_products': user_products
@@ -59,6 +61,10 @@ def product(request, product_id):
 		if form.is_valid():
 			product = form.save(commit=False)
 			product.owner = request.user
+
+			target_end_date = datetime.strptime(request.POST.get('target_end_date'), '%Y-%m-%d').date()
+			product.target_end_date = target_end_date
+			
 			product.save()
 	
 	else:
@@ -77,7 +83,7 @@ def product(request, product_id):
 def delete(request, product_id):
 	product = get_object_or_404(Product, pk=product_id)
 
-	if product.user.id != product.owner.id:
+	if request.user.id != product.owner.id:
 		return redirect('/')
 
 	product_name = product.name

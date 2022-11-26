@@ -1,4 +1,31 @@
 <div class="product_detail">
-	This is product_detail.html
+	
+	<div class="row">
+		{% comment %}<i>{{ product.get_formatted_price }} | Bought {{product.purchase_date}} ({{product.get_age_string}} ago)</i>{% endcomment %}
+	</div>
+	
+	<div class="row">
+		<div class="col-md-2">
+			{% load static %}
+			<img src="{% static 'products/placeholder_image.png' %}" alt="Placeholder" class="product-image img-fluid">
+		</div>
+
+		<div class="col-md-10">
+			<h1>{{ product.name }}</h1>
+			<i>{{ product.get_formatted_price }} | Bought {{product.purchase_date}} ({{product.get_age_string}} ago)</i>
+			<br/>
+			<progress value="{{product.get_current_lifespan_percentage}}" max="100"></progress>
+		</div>
+	</div>
+
+
 </div>
+<hr/>
+
+<!-- Temporary - Just giving us a bit of space to work. -->
+<style type="text/css">
+	.product_detail {
+		margin-bottom: 300px;
+	}
+</style>
 
