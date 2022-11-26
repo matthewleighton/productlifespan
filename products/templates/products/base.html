@@ -11,8 +11,7 @@
 </head>
 <body>
 	<div class="container">
-		<h1><a href="{% url 'products:index' %}">Product Lifespan</a></h1>
-		<hr/>
+		{% include 'products/navbar.html' %}
 
 		<div id="content">
 			{% include 'products/messages.html' %}
