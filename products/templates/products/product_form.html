@@ -55,15 +55,13 @@
 	</div>
 
 	<div class="col-12">
-		<button type="submit" class="btn btn-primary">Create Product</button>
+		<button type="submit" class="btn btn-primary">{{ submit_text }}</button>
+		{% if product.id %}
+			<a class="btn btn-danger pull-right" href="{% url 'products:delete' product.id %}" role="button">Delete Product</a>
+		{% endif %}
 	</div>
 
-
-	<!-- TODO: This is here temporarily, until the ability to login is added. -->
-	<!-- <input type="hidden" id="id_owner" name="owner" value="2"> -->
-
 </form>
-
 
 {% load static %}
 <script src="{% static 'products/product_form.js' %}"></script>

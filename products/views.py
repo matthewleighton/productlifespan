@@ -41,7 +41,8 @@ def new(request):
 
 	context = {
 		'form': form,
-		'form_action': reverse('products:new')
+		'form_action': reverse('products:new'),
+		'submit_text': 'Create Product'
 	}
 
 	return render(request, 'products/new.html', context)
@@ -50,7 +51,7 @@ def product(request, product_id):
 	product = get_object_or_404(Product, pk=product_id)
 
 	if request.user.id != product.owner.id:
-		return redirect(f'/')
+		return redirect('/')
 
 	if request.method == 'POST':
 		form = ProductForm(request.POST, instance=product)
@@ -59,7 +60,6 @@ def product(request, product_id):
 			product = form.save(commit=False)
 			product.owner = request.user
 			product.save()
-
 	
 	else:
 		form = ProductForm(instance=product)
@@ -68,17 +68,22 @@ def product(request, product_id):
 	context = {
 		'product': product,
 		'form': form,
-		'form_action': reverse(f'products:product', kwargs={'product_id': product_id})
+		'form_action': reverse(f'products:product', kwargs={'product_id': product_id}),
+		'submit_text': 'Update Product'
 	}
 
 	return render(request, 'products/product.html', context)
 
 def delete(request, product_id):
 	product = get_object_or_404(Product, pk=product_id)
+
+	if product.user.id != product.owner.id:
+		return redirect('/')
+
 	product_name = product.name
 
 	product.delete()
 
 	messages.success(request, f'Product "{product_name}" deleted.')
 
-	return redirect(f'/')
+	return redirect('/')
