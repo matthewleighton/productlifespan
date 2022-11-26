@@ -11,7 +11,9 @@ from .models import Product
 from .forms import ProductForm
 
 def index(request):
-	user_products = Product.objects.filter(owner=2).order_by('purchase_date')
+	current_user_id = request.user.id
+
+	user_products = Product.objects.filter(owner=current_user_id).order_by('purchase_date')
 
 	context = {
 		'user_products': user_products
@@ -24,12 +26,15 @@ def new(request):
 		form = ProductForm(request.POST)
 
 		if form.is_valid():
-			new_product_id = form.save().id
+			new_product = form.save(commit=False)
+			new_product.owner = request.user
+
+			new_product.save()
 
 			product_name = request.POST['name']
 			messages.success(request, f'Product "{product_name}" created.')
 
-			return redirect(f'product/{new_product_id}')
+			return redirect(f'product/{new_product.id}')
 	
 	else:
 		form = ProductForm()
@@ -44,10 +49,18 @@ def new(request):
 def product(request, product_id):
 	product = get_object_or_404(Product, pk=product_id)
 
+	if request.user.id != product.owner.id:
+		return redirect(f'/')
+
 	if request.method == 'POST':
 		form = ProductForm(request.POST, instance=product)
+		
 		if form.is_valid():
-			form.save()
+			product = form.save(commit=False)
+			product.owner = request.user
+			product.save()
+
+	
 	else:
 		form = ProductForm(instance=product)
 

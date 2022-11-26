@@ -3,8 +3,12 @@
 {% block title %}New Product{% endblock %}
 
 {% block content %}
-	
-	{% include 'products/products_list.html' %}
+
+	{% if user.is_authenticated %}
+		{% include 'products/products_list.html' %}
+	{% else %}
+		{% include 'products/home_logged_out.html' %}
+	{% endif %}
 
 {% endblock %}
 
