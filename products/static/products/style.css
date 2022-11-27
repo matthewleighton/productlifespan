@@ -1,0 +1,16 @@
+.navbar {
+	margin-bottom: 30px;
+}
+
+.product-price-table {
+	margin-top: 70px;
+}
+
+.product-price-table caption {
+	caption-side: top;
+	margin-left: 23%;
+}
+
+.product-detail-graph {
+	background-color: pink;
+}

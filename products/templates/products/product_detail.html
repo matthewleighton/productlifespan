@@ -4,7 +4,7 @@
 		{% comment %}<i>{{ product.get_formatted_price }} | Bought {{product.purchase_date}} ({{product.get_age_string}} ago)</i>{% endcomment %}
 	</div>
 	
-	<div class="row">
+	<div class="row product-detail-top">
 		<div class="col-md-2">
 			{% load static %}
 			<img src="{% static 'products/placeholder_image.png' %}" alt="Placeholder" class="product-image img-fluid">
@@ -15,7 +15,58 @@
 			<i>{{ product.get_formatted_price }} | Bought {{product.purchase_date}} ({{product.get_age_string}} ago)</i>
 			<br/>
 			<progress value="{{product.get_current_lifespan_percentage}}" max="100"></progress>
+			<br/>
+			<span>Target Retirement Date: {{product.get_end_date_string}}</span><br/>
+			<span>{{product.get_current_lifespan_percentage}}% complete | {{product.get_remaining_lifetime}}</span>
 		</div>
+	</div>
+
+	<div class="row product-price-table">
+		
+		<div class="col-md-3">
+			<table class="table">
+				<caption>Current Price</caption>
+				<tr>
+					<td>Daily</td>
+					<td>{{product.get_current_daily_price_string}}</td>
+				</tr>
+				<tr>
+					<td>Weekly</td>
+					<td>{{product.get_current_weekly_price_string}}</td>
+				</tr><tr>
+					<td>Monthly</td>
+					<td>{{product.get_current_monthly_price_string}}</td>
+				</tr><tr>
+					<td>Yearly</td>
+					<td>{{product.get_current_yearly_price_string}}</td>
+				</tr>
+			</table>
+		</div>
+
+		<div class="col-md-3">
+			<table class="table">
+				<caption>Target Price</caption>
+				<tr>
+					<td>Daily</td>
+					<td>{{product.get_target_daily_price_string}}</td>
+				</tr>
+				<tr>
+					<td>Weekly</td>
+					<td>{{product.get_target_weekly_price_string}}</td>
+				</tr><tr>
+					<td>Monthly</td>
+					<td>{{product.get_target_monthly_price_string}}</td>
+				</tr><tr>
+					<td>Yearly</td>
+					<td>{{product.get_target_yearly_price_string}}</td>
+				</tr>
+			</table>
+		</div>
+
+		<div class="col-md-6 product-detail-graph">
+			This is where the graph goes.
+		</div>
+
 	</div>
 
 
