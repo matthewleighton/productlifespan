@@ -4,12 +4,14 @@
 			<th>Name</th>
 			<th>Price</th>
 			<th>Purchase Date</th>
+			<th>Current Monthly Price</th>
 		</tr>
 		{% for product in user_products %}
 			<tr>
 				<td><a href="{% url 'products:product' product.id %}">{{ product.name }}</a></td>
-				<td>{{ product.price }}</td>
+				<td>{{ product.get_formatted_price }}</td>
 				<td>{{ product.purchase_date }}</td>
+				<td>{{ product.get_current_monthly_price_string }}</td>
 			</tr>
 		{% endfor %}
 	</table>

@@ -10,7 +10,7 @@
 			<img src="{% static 'products/placeholder_image.png' %}" alt="Placeholder" class="product-image img-fluid">
 		</div>
 
-		<div class="col-md-10">
+		<div class="col-md-9">
 			<h1>{{ product.name }}</h1>
 			<i>{{ product.get_formatted_price }} | Bought {{product.purchase_date}} ({{product.get_age_string}} ago)</i>
 			<br/>
@@ -19,9 +19,13 @@
 			<span>Target Retirement Date: {{product.get_end_date_string}}</span><br/>
 			<span>{{product.get_current_lifespan_percentage}}% complete | {{product.get_remaining_lifetime}}</span>
 		</div>
+		<div class="col-md-1">
+			<button type="button" class="btn btn-primary" id="product-edit-toggle-button" onclick="toggle_product_form()">Edit</button>
+		</div>
+
 	</div>
 
-	<div class="row product-price-table">
+	<div class="row" id="product-detail-middle">
 		
 		<div class="col-md-3">
 			<table class="table">
@@ -63,20 +67,11 @@
 			</table>
 		</div>
 
-		<div class="col-md-6 product-detail-graph">
+		<div class="col-md-6" id="product-detail-graph">
 			This is where the graph goes.
 		</div>
 
 	</div>
 
-
 </div>
-<hr/>
-
-<!-- Temporary - Just giving us a bit of space to work. -->
-<style type="text/css">
-	.product_detail {
-		margin-bottom: 300px;
-	}
-</style>
 

@@ -2,15 +2,23 @@
 	margin-bottom: 30px;
 }
 
-.product-price-table {
-	margin-top: 70px;
+.product-detail-top {
+	margin-bottom: 70px;
 }
 
-.product-price-table caption {
+#product-detail-middle caption {
 	caption-side: top;
 	margin-left: 23%;
 }
 
-.product-detail-graph {
+#product-detail-graph {
 	background-color: pink;
+}
+
+#existing-product #product-form {
+	display: none;
+}
+
+#product-edit-toggle-button {
+	width: 80px;
 }

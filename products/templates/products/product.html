@@ -3,9 +3,14 @@
 {% block title %}New Product{% endblock %}
 
 {% block content %}
-	{% include 'products/product_detail.html' %}
+	<div id="existing-product">
+		{% include 'products/product_detail.html' %}
+		{% include 'products/product_form.html' %}
+	</div>
+	
 
-	{% include 'products/product_form.html' %}
+	{% load static %}
+	<script src="{% static 'products/product_page.js' %}"></script>
 
 {% endblock %}
 
