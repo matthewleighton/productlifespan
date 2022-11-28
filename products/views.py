@@ -31,6 +31,9 @@ def new(request):
 			new_product = form.save(commit=False)
 			new_product.owner = request.user
 
+			target_end_date = datetime.strptime(request.POST.get('target_end_date'), '%Y-%m-%d').date()
+			new_product.target_end_date = target_end_date
+
 			new_product.save()
 
 			product_name = request.POST['name']
