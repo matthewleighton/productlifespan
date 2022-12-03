@@ -73,12 +73,20 @@ def product(request, product_id):
 	else:
 		form = ProductForm(instance=product)
 
+
+	graph_data = {
+		'purchase_date': product.purchase_date,
+		'target_end_date': product.target_end_date,
+		'price': product.price
+	}
+
 	template = loader.get_template('products/index.html')
 	context = {
 		'product': product,
 		'form': form,
 		'form_action': reverse(f'products:product', kwargs={'product_id': product_id}),
-		'submit_text': 'Update Product'
+		'submit_text': 'Update Product',
+		'graph_data': graph_data
 	}
 
 	return render(request, 'products/product.html', context)

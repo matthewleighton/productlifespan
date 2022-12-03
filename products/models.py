@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.templatetags.static import static
 
 from datetime import date
 from decimal import Decimal
@@ -13,9 +14,17 @@ class Product(models.Model):
 	currency 	  = models.CharField('Currency', max_length=3)
 	owner		  = models.ForeignKey(User, on_delete=models.CASCADE)
 	target_end_date = models.DateField('Target End Date', default=date.today)
+	image		  = models.ImageField(upload_to='products/uploads/', blank=True)
 
 	DAYS_IN_MONTH = Decimal(365.25 / 12)
 	DAYS_IN_YEAR  = Decimal(365.25)
+
+	def get_image_url(self):
+		if self.image:
+			return self.image.url
+
+		# Default to placeholder image.
+		return static('products/placeholder_image.png')
 
 	def get_current_days_old(self):
 		today = date.today()

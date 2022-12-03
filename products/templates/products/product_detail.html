@@ -1,4 +1,6 @@
 <div class="product_detail">
+
+	{{graph_data|json_script:"graph-data"}}
 	
 	<div class="row">
 		{% comment %}<i>{{ product.get_formatted_price }} | Bought {{product.purchase_date}} ({{product.get_age_string}} ago)</i>{% endcomment %}
@@ -7,7 +9,7 @@
 	<div class="row product-detail-top">
 		<div class="col-md-2">
 			{% load static %}
-			<img src="{% static 'products/placeholder_image.png' %}" alt="Placeholder" class="product-image img-fluid">
+			<img src="{{ product.get_image_url }}" alt="Placeholder" class="product-image img-fluid">
 		</div>
 
 		<div class="col-md-9">
@@ -67,9 +69,9 @@
 			</table>
 		</div>
 
-		<div class="col-md-6" id="product-detail-graph">
-			This is where the graph goes.
-		</div>
+<!-- 		<div class="col-md-6">
+			<svg id="product-detail-graph"></svg>
+		</div> -->
 
 	</div>
 
