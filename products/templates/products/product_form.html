@@ -1,4 +1,4 @@
-<form class="row g-3" id="product-form" action="{{ form_action }}", method="POST">
+<form class="row g-3" id="product-form" action="{{ form_action }}", method="POST" enctype="multipart/form-data">
 
 	{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
@@ -25,6 +25,11 @@
 	<div class="col-md-6">
 		<label for="id_currency" class="form-label">Currency</label>
 		<input type="text" class="form-control" id="id_currency" name="currency" value="{{product.currency}}">
+	</div>
+
+	<div class="col-md-6">
+		<label for="id_currency" class="form-label">Image</label>
+		<input type="file" class="form-control" id="id_image" name="image" accept=".jpg, .jpeg, .png" value="{{product.image}}">
 	</div>
 
 	<hr/>

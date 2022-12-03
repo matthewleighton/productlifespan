@@ -3,6 +3,7 @@ from django.template import loader
 from django.http import Http404
 from django.contrib import messages
 from django.urls import reverse
+from django.core.files.storage import FileSystemStorage
 
 # Create your views here.
 from django.http import HttpResponse
@@ -11,6 +12,7 @@ from .models import Product
 from .forms import ProductForm
 
 from datetime import datetime
+from pprint import pprint
 
 def index(request):
 	current_user_id = request.user.id
@@ -59,7 +61,7 @@ def product(request, product_id):
 		return redirect('/')
 
 	if request.method == 'POST':
-		form = ProductForm(request.POST, instance=product)
+		form = ProductForm(request.POST, request.FILES, instance=product)
 		
 		if form.is_valid():
 			product = form.save(commit=False)

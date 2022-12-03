@@ -19,6 +19,9 @@ class Product(models.Model):
 	DAYS_IN_MONTH = Decimal(365.25 / 12)
 	DAYS_IN_YEAR  = Decimal(365.25)
 
+	def __str__(self):
+		return self.name
+
 	def get_image_url(self):
 		if self.image:
 			return self.image.url
