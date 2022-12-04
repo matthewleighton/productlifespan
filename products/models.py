@@ -1,11 +1,20 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.templatetags.static import static
+from django.core.exceptions import ObjectDoesNotExist
+from django_resized import ResizedImageField
 
+import os
 from datetime import date
 from decimal import Decimal
 
-# Create your models here.
+from pprint import pprint
+
+def get_product_image_location(product, filename):
+	file_extension = filename.split('.')[-1]
+	product_id = product.id
+
+	return f'products/uploads/{product_id}.{file_extension}'
 
 class Product(models.Model):
 	name 		  = models.CharField('Product Name', max_length=50)
@@ -14,13 +23,29 @@ class Product(models.Model):
 	currency 	  = models.CharField('Currency', max_length=3)
 	owner		  = models.ForeignKey(User, on_delete=models.CASCADE)
 	target_end_date = models.DateField('Target End Date', default=date.today)
-	image		  = models.ImageField(upload_to='products/uploads/', blank=True)
+	image		  = ResizedImageField(size=[250, 250], upload_to=get_product_image_location, blank=True)
 
 	DAYS_IN_MONTH = Decimal(365.25 / 12)
 	DAYS_IN_YEAR  = Decimal(365.25)
 
 	def __str__(self):
 		return self.name
+
+	# If the product already has an image, delete it when a new one is given.
+	def save(self, *args, **kwargs):
+		try:
+			this = Product.objects.get(id=self.id)
+
+			# Only delete the old image if a new one is actually given.
+			if this.image and this.image.path != self.image.path:
+				try:
+					os.remove(this.image.path)
+				except:
+					pass
+		except ObjectDoesNotExist:
+			pass
+
+		super(Product, self).save(*args, **kwargs)
 
 	def get_image_url(self):
 		if self.image:
@@ -146,4 +171,3 @@ class Product(models.Model):
 		target_yearly_price = self.get_target_daily_price() * self.DAYS_IN_YEAR
 		return self.format_price(target_yearly_price)
 
-		

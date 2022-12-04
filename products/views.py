@@ -4,8 +4,6 @@ from django.http import Http404
 from django.contrib import messages
 from django.urls import reverse
 from django.core.files.storage import FileSystemStorage
-
-# Create your views here.
 from django.http import HttpResponse
 
 from .models import Product
