@@ -25,7 +25,7 @@ def index(request):
 
 def new(request):
 	if request.method == 'POST':
-		form = ProductForm(request.POST)
+		form = ProductForm(request.POST, request.FILES)
 
 		if form.is_valid():
 			new_product = form.save(commit=False)
