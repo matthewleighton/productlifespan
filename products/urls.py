@@ -12,6 +12,7 @@ urlpatterns = [
 	path('', views.index, name='index'),
 	path('new', views.new, name='new'),
 	path('product/<int:product_id>', views.product, name='product'),
+	path('retire/<int:product_id>', views.retire, name='retire'),
 	path('delete/<int:product_id>', views.delete, name='delete'),
 	# *static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 ]

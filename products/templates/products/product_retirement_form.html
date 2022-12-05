@@ -1,0 +1,23 @@
+<form class="row g-3" id="product-retirement-form" action="{{ retirement_form_action }}", method="POST">
+
+	{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+	{{ form.errors }}
+	{{ form.non_field_errors }}
+
+	{% csrf_token %}
+
+	<div class="col-md-6">
+		<label for="target_end_date" class="form-label">Retirement Date</label>
+		<input type="date" value="{{ product.get_retirement_date_field_value.isoformat }}" name="retirement_date" id="id_retirement_date" class="form-control" autocomplete="off"/>
+	</div>
+
+	<div class="col-12">
+		<button type="submit" class="btn btn-danger">{{ submit_retirement_form_text }}</button>
+		{% if product.is_retired %}
+			<button class="btn btn-success" onclick="undo_retirement()" type="button">Un-Retire Product</button>
+		{% endif %}
+		<button class="btn btn-primary" onclick="hide_retirement_form()" type="button">Cancel</button>
+	</div>
+
+</form>

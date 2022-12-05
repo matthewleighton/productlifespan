@@ -74,6 +74,8 @@ def product(request, product_id):
 		form = ProductForm(instance=product)
 
 
+	submit_retirement_form_text = 'Update Retirement Date' if product.is_retired() is True else 'Retire'
+
 	graph_data = {
 		'purchase_date': product.purchase_date,
 		'target_end_date': product.target_end_date,
@@ -85,11 +87,36 @@ def product(request, product_id):
 		'product': product,
 		'form': form,
 		'form_action': reverse(f'products:product', kwargs={'product_id': product_id}),
+		'retirement_form_action': reverse(f'products:retire', kwargs={'product_id': product_id}),
 		'submit_text': 'Update Product',
-		'graph_data': graph_data
+		'graph_data': graph_data,
+		'submit_retirement_form_text': submit_retirement_form_text
 	}
 
 	return render(request, 'products/product.html', context)
+
+def retire(request, product_id):
+	product = get_object_or_404(Product, pk=product_id)
+
+	if request.user.id != product.owner.id:
+		return redirect('/')
+
+	if request.method != 'POST':
+		return redirect('/')
+
+
+	submitted_retirement_date = request.POST.get('retirement_date')
+
+	if submitted_retirement_date:
+		retirement_date = datetime.strptime(submitted_retirement_date, '%Y-%m-%d').date()
+	else:
+		retirement_date = None
+
+	product.retirement_date = retirement_date
+	product.save()
+
+	return redirect(f'/product/{product_id}')
+
 
 def delete(request, product_id):
 	product = get_object_or_404(Product, pk=product_id)

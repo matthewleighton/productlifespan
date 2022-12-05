@@ -12,7 +12,7 @@
 			<img src="{{ product.get_image_url }}" alt="Placeholder" class="product-image img-fluid">
 		</div>
 
-		<div class="col-md-9">
+		<div class="col-md-8">
 			<h1>{{ product.name }}</h1>
 			<i>{{ product.get_formatted_price }} | Bought {{product.purchase_date}} ({{product.get_age_string}} ago)</i>
 			<br/>
@@ -21,7 +21,8 @@
 			<span>Target Retirement Date: {{product.get_end_date_string}}</span><br/>
 			<span>{{product.get_current_lifespan_percentage}}% complete | {{product.get_remaining_lifetime}}</span>
 		</div>
-		<div class="col-md-1">
+		<div class="col-md-2">
+			<button type="button" class="btn btn-danger" id="product-retire-button" onclick="display_retirement_form()">Retirement</button>
 			<button type="button" class="btn btn-primary" id="product-edit-toggle-button" onclick="toggle_product_form()">Edit</button>
 		</div>
 

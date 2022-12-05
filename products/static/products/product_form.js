@@ -91,6 +91,8 @@ function initialize_fields() {
 
 
 
+
+
 var buy_price_field = document.getElementsByName('price')[0];
 var purchase_date_field = document.getElementsByName('purchase_date')[0];
 

@@ -11,14 +11,14 @@
 	margin-left: 23%;
 }
 
-#product-detail-graph {
-/*	background-color: pink;*/
-}
-
 #existing-product #product-form {
 	display: none;
 }
 
 #product-edit-toggle-button {
 	width: 80px;
+}
+
+#product-retirement-form {
+	display: none;
 }

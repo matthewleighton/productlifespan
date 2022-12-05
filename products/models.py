@@ -23,6 +23,7 @@ class Product(models.Model):
 	currency 	  = models.CharField('Currency', max_length=3)
 	owner		  = models.ForeignKey(User, on_delete=models.CASCADE)
 	target_end_date = models.DateField('Target End Date', default=date.today)
+	retirement_date = models.DateField('Retirement Date', blank=True, null=True)
 	image		  = ResizedImageField(size=[250, 250], upload_to=get_product_image_location, blank=True)
 
 	DAYS_IN_MONTH = Decimal(365.25 / 12)
@@ -171,3 +172,17 @@ class Product(models.Model):
 		target_yearly_price = self.get_target_daily_price() * self.DAYS_IN_YEAR
 		return self.format_price(target_yearly_price)
 
+	# Return today if the product is not retired.
+	def get_retirement_date_field_value(self):
+		if self.is_retired():
+			return self.retirement_date
+
+		return date.today()
+
+	def is_retired(self):
+		retirement_date = self.retirement_date
+
+		if retirement_date:
+			return True
+
+		return False
