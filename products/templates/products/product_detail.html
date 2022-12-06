@@ -1,4 +1,4 @@
-<div class="product_detail">
+<div class="product_detail {{product.detail_section_css_class}}">
 
 	{{graph_data|json_script:"graph-data"}}
 	
@@ -14,12 +14,20 @@
 
 		<div class="col-md-8">
 			<h1>{{ product.name }}</h1>
-			<i>{{ product.get_formatted_price }} | Bought {{product.purchase_date}} ({{product.get_age_string}} ago)</i>
+			<i>{{ product.get_formatted_price }} | Bought {{product.purchase_date}} ({{product.get_days_since_purchase_string}} ago)</i>
 			<br/>
-			<progress value="{{product.get_current_lifespan_percentage}}" max="100"></progress>
-			<br/>
-			<span>Target Retirement Date: {{product.get_end_date_string}}</span><br/>
-			<span>{{product.get_current_lifespan_percentage}}% complete | {{product.get_remaining_lifetime}}</span>
+			{% if product.is_retired %}
+				<span>Retired on: {{product.retirement_date}}</span>
+				<br/>
+				<span>Lifespan: {{product.get_lifetime_string}}</span>
+			{% else %}
+				<progress value="{{product.get_current_lifespan_percentage}}" max="100"></progress>
+				<br/>
+				<span>Target Retirement Date: {{product.get_end_date_string}}</span>
+				<br/>
+				<span>{{product.get_current_lifespan_percentage}}% complete | {{product.get_remaining_lifetime}}</span>
+			{% endif %}
+
 		</div>
 		<div class="col-md-2">
 			<button type="button" class="btn btn-danger" id="product-retire-button" onclick="display_retirement_form()">Retirement</button>
@@ -29,10 +37,14 @@
 	</div>
 
 	<div class="row" id="product-detail-middle">
-		
+		<!-- <div class="col-md-1"></div> -->
 		<div class="col-md-3">
 			<table class="table">
-				<caption>Current Price</caption>
+				{% if product.is_retired %}
+					<caption>Price at Retirement</caption>
+				{% else %}
+					<caption>Current Price</caption>
+				{% endif %}
 				<tr>
 					<td>Daily</td>
 					<td>{{product.get_current_daily_price_string}}</td>
@@ -69,6 +81,28 @@
 				</tr>
 			</table>
 		</div>
+
+		<div class="col-md-3">
+			<table class="table">
+				<caption>Price Difference (TODO)</caption>
+				<tr>
+					<td>Daily</td>
+					<td>{{product.get_target_daily_price_string}}</td>
+				</tr>
+				<tr>
+					<td>Weekly</td>
+					<td>{{product.get_target_weekly_price_string}}</td>
+				</tr><tr>
+					<td>Monthly</td>
+					<td>{{product.get_target_monthly_price_string}}</td>
+				</tr><tr>
+					<td>Yearly</td>
+					<td>{{product.get_target_yearly_price_string}}</td>
+				</tr>
+			</table>
+		</div>
+
+
 
 <!-- 		<div class="col-md-6">
 			<svg id="product-detail-graph"></svg>

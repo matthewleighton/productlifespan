@@ -55,11 +55,13 @@ class Product(models.Model):
 		# Default to placeholder image.
 		return static('products/placeholder_image.png')
 
-	def get_current_days_old(self):
+	def get_current_days_old(self, until_retirement=False):
+		end_date = self.retirement_date if until_retirement else date.today()
+
 		today = date.today()
 		purchase_date = self.purchase_date
 
-		days_old = (today - purchase_date).days
+		days_old = (end_date - purchase_date).days
 
 		return days_old
 
@@ -67,10 +69,19 @@ class Product(models.Model):
 		return (self.target_end_date - self.purchase_date).days
 
 	def get_current_lifespan_days(self):
-		return (date.today() - self.purchase_date).days
+		if self.is_retired():
+			return (self.retirement_date - self.purchase_date).days
+		else:
+			return (date.today() - self.purchase_date).days
 
-	def get_age_string(self):
+	def get_days_since_purchase_string(self):
 		days_old = self.get_current_days_old()
+
+		return self.format_days_to_best_unit(days_old)
+
+	def get_lifetime_string(self):
+		until_retirement = True if self.is_retired() else False
+		days_old = self.get_current_days_old(until_retirement)
 
 		return self.format_days_to_best_unit(days_old)
 
@@ -131,7 +142,9 @@ class Product(models.Model):
 		return f'{currency_symbol}{price}'
 
 	def get_current_daily_price(self):
-		days_old = self.get_current_days_old()
+		until_retirement = True if self.is_retired() else False
+
+		days_old = self.get_current_days_old(until_retirement)
 		daily_price = self.price / days_old
 
 		return daily_price
@@ -186,3 +199,9 @@ class Product(models.Model):
 			return True
 
 		return False
+
+	def detail_section_css_class(self):
+		if self.is_retired():
+			return 'product-detail-retired'
+
+		return 'product-detail-not-retired'

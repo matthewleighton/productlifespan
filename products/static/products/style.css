@@ -6,6 +6,14 @@
 	margin-bottom: 70px;
 }
 
+.product-detail-retired {
+	color: #707070;
+}
+
+.product-detail-retired img {
+	filter: grayscale(100%);
+}
+
 #product-detail-middle caption {
 	caption-side: top;
 	margin-left: 23%;
