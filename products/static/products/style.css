@@ -5,9 +5,14 @@ body {
 
 td {
 	color: #9ab;
+	vertical-align: middle;
 }
 
 td a {
+	color: #9ab;
+}
+
+td a:hover {
 	color: #9ab;
 }
 
@@ -21,6 +26,10 @@ th {
 
 .navbar {
 	margin-bottom: 30px;
+}
+
+.sortable th {
+	cursor: pointer;
 }
 
 .product-detail-top {
@@ -60,4 +69,9 @@ th {
 	border-radius: 5px;
 	max-width: 80px;
 	max-height: 80px;
+}
+
+.td-product-image {
+	text-align: center;
+	width: 100px;
 }

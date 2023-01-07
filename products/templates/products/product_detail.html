@@ -30,14 +30,14 @@
 
 		</div>
 		<div class="col-md-2">
-			<button type="button" class="btn btn-danger" id="product-retire-button" onclick="display_retirement_form()">Retirement</button>
+			<button type="button" class="btn btn-danger" id="product-retire-button" onclick="display_retirement_form()">Retire</button>
 			<button type="button" class="btn btn-primary" id="product-edit-toggle-button" onclick="toggle_product_form()">Edit</button>
 		</div>
 
 	</div>
 
 	<div class="row" id="product-detail-middle">
-		<!-- <div class="col-md-1"></div> -->
+		<div class="col-md-1"></div>
 		<div class="col-md-3">
 			<table class="table">
 				{% if product.is_retired %}
