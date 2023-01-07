@@ -243,3 +243,8 @@ class Product(models.Model):
 			return 'product-detail-retired'
 
 		return 'product-detail-not-retired'
+
+	# Returns a key which allows sorttable.js to correctly sort the date coloumn in the product list table.
+	# See: https://www.kryogenix.org/code/browser/sorttable/#dates
+	def get_sorttable_custom_date_key(self):
+		return self.purchase_date.strftime('%Y%m%d')

@@ -18,7 +18,7 @@
 				</td>
 				<td><a href="{% url 'products:product' product.id %}">{{ product.name }}</a></td>
 				<td>{{ product.get_formatted_price }}</td>
-				<td>{{ product.purchase_date }}</td>
+				<td sorttable_customkey="{{ product.get_sorttable_custom_date_key }}">{{ product.purchase_date }}</td>
 				<td>{{ product.get_current_monthly_price_string }}</td>
 			</tr>
 		{% endfor %}
