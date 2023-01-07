@@ -116,13 +116,19 @@ th {
 	height: 20px;
 }
 
-.product-list-table .retired {
-	background-color: #5A5A5A;
+.retired-product-table-label {
+	top: -0.1em;
+	font-size: 0.8em;
+	position: relative;
 }
 
 .show-retired-products-checkbox-div {
 	position: relative;
 	top: 15px;
+}
+
+a.retired {
+	text-decoration: line-through;
 }
 
 #product-form input {

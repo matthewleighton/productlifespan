@@ -10,6 +10,8 @@ from decimal import Decimal
 
 from pprint import pprint
 
+
+
 def get_product_image_location(product, filename):
 	file_extension = filename.split('.')[-1]
 	product_id = product.id
@@ -249,6 +251,15 @@ class Product(models.Model):
 			return 'retired'
 
 		return ''
+
+	def get_product_list_retired_note(self):
+		if self.is_retired():
+			return ' (RETIRED)'
+
+		return ''
+
+
+	
 
 	def detail_section_css_class(self):
 		if self.is_retired():
