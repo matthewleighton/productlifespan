@@ -6,7 +6,7 @@
 		{% comment %}<i>{{ product.get_formatted_price }} | Bought {{product.purchase_date}} ({{product.get_age_string}} ago)</i>{% endcomment %}
 	</div>
 	
-	<div class="row product-detail-top">
+	<div class="row product-detail-top product-detail-table">
 		<div class="col-md-2">
 			{% load static %}
 			<img src="{{ product.get_image_url }}" alt="Placeholder" class="product-image img-fluid">
@@ -39,7 +39,7 @@
 	<div class="row" id="product-detail-middle">
 		<div class="col-md-1"></div>
 		<div class="col-md-3">
-			<table class="table">
+			<table class="table product-detail-table">
 				{% if product.is_retired %}
 					<caption>Price at Retirement</caption>
 				{% else %}
@@ -62,7 +62,7 @@
 			</table>
 		</div>
 
-		<div class="col-md-3">
+		<div class="col-md-3 product-detail-table">
 			<table class="table">
 				<caption>Target Price</caption>
 				<tr>
@@ -82,7 +82,7 @@
 			</table>
 		</div>
 
-		<div class="col-md-3">
+		<div class="col-md-3 product-detail-table">
 			<table class="table">
 				<caption>Price Difference</caption>
 				<tr>

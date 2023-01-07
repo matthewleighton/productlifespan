@@ -1,11 +1,27 @@
 {% load static %}
 
-<a class="btn btn-primary new-product-button" target="_blank" href="{% url 'products:new' %}">
-	<span class="new-product-button-span">
-		<span class="large-plus">&#x2b;</span>
-		<span class="new-product-button-text">Add Product</span>
-	</span>
-</a>
+<div class="row">
+	<div class="col-md-2">
+		<a class="btn btn-primary new-product-button" target="_blank" href="{% url 'products:new' %}">
+			<span class="new-product-button-span">
+				<span class="large-plus">&#x2b;</span>
+				<span class="new-product-button-text">Add Product</span>
+			</span>
+		</a>
+	</div>
+
+	<div class="col-md-8"></div>
+
+	{% if user_products|length %}
+		<div class="col-md-2 form-check form-switch show-retired-products-checkbox-div">
+			<input class="form-check-input show-retired-products-checkbox" type="checkbox" id="flexSwitchCheckChecked" checked onclick="toggle_retired_products();">
+			<label class="form-check-label" for="flexSwitchCheckChecked">Show Retired Products</label>
+		</div>
+	{% endif %}
+
+</div>
+
+
 
 {% if user_products|length %}
 	<table class="table sortable product-list-table">
@@ -17,7 +33,7 @@
 			<th>Current Monthly Price</th>
 		</tr>
 		{% for product in user_products %}
-			<tr>
+			<tr class="{{ product.get_retired_table_class }}">
 				<td class="td-product-image">
 					<a href="{% url 'products:product' product.id %}">
 						<img src="{{ product.get_image_url }}" alt="Placeholder" class="product-image-small img-fluid">
@@ -35,3 +51,4 @@
 {% endif %}
 
 <script src="{% static 'products/sorttable.js' %}" defer></script>
+<script src="{% static 'products/product_list.js' %}"></script>

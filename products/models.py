@@ -244,6 +244,12 @@ class Product(models.Model):
 
 		return 'Retire'
 
+	def get_retired_table_class(self):
+		if self.is_retired():
+			return 'retired'
+
+		return ''
+
 	def detail_section_css_class(self):
 		if self.is_retired():
 			return 'product-detail-retired'

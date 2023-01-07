@@ -77,6 +77,10 @@ th {
 	margin-left: 23%;
 }
 
+.product-detail-table caption {
+	font-weight: bold;
+}
+
 #existing-product #product-form {
 	display: none;
 }
@@ -101,7 +105,38 @@ th {
 
 .td-product-image {
 	text-align: center;
-	width: 100px;
+/*	width: 100px;*/
 }
 
-#login-form
+.product-list-table tr {
+	height: 100px;
+}
+
+.product-list-table thead tr {
+	height: 20px;
+}
+
+.product-list-table .retired {
+	background-color: #5A5A5A;
+}
+
+.show-retired-products-checkbox-div {
+	position: relative;
+	top: 15px;
+}
+
+#product-form input {
+	background-color: #bdcee0;
+}
+
+#product-form input:focus {
+	background-color: white;
+}
+
+#product-form select {
+	background-color: #bdcee0;
+}
+
+#product-form select:focus {
+	background-color: white;
+}
