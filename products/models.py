@@ -50,7 +50,11 @@ class Product(models.Model):
 
 	def get_image_url(self):
 		if self.image:
-			return self.image.url
+
+			image_exists = self.image.storage.exists(self.image.name)
+
+			if image_exists:
+				return self.image.url
 
 		# Default to placeholder image.
 		return static('products/placeholder_image.png')

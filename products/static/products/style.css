@@ -55,3 +55,9 @@ th {
 .product-image {
 	border-radius: 5px;
 }
+
+.product-image-small {
+	border-radius: 5px;
+	max-width: 80px;
+	max-height: 80px;
+}
