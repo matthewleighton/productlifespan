@@ -36,6 +36,30 @@ th {
 	cursor: default;
 }
 
+.new-product-button {
+	max-height: 40px;
+	vertical-align: middle;
+}
+
+.new-product-button-span {
+	position: relative;
+	top: -10px;
+}
+
+.new-product-button-text {
+	position: relative;
+	top: -4px;
+	left: 5px;
+}
+
+.large-plus {
+	font-size: 30px;
+}
+
+.product-list-table {
+	margin-top: 20px;
+}
+
 .product-detail-top {
 	margin-bottom: 70px;
 }

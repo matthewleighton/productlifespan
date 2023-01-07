@@ -1,12 +1,19 @@
 {% load static %}
 
+<a class="btn btn-primary new-product-button" target="_blank" href="{% url 'products:new' %}">
+	<span class="new-product-button-span">
+		<span class="large-plus">&#x2b;</span>
+		<span class="new-product-button-text">Add Product</span>
+	</span>
+</a>
+
 {% if user_products|length %}
-	<table class="table sortable">
+	<table class="table sortable product-list-table">
 		<tr>
 			<th class="sorttable_nosort"></th>
 			<th>Name</th>
 			<th>Price</th>
-			<th>Purchase Date</th>
+			<th class="purchase_date_th">Purchase Date</th>
 			<th>Current Monthly Price</th>
 		</tr>
 		{% for product in user_products %}
@@ -26,7 +33,5 @@
 {% else %}
 	<p>You don't have any products.</p>
 {% endif %}
-
-<a href="{% url 'products:new' %}">Add Product</a>
 
 <script src="{% static 'products/sorttable.js' %}" defer></script>

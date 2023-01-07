@@ -238,6 +238,12 @@ class Product(models.Model):
 
 		return False
 
+	def get_retire_button_text(self):
+		if self.is_retired():
+			return 'Un-Retire'
+
+		return 'Retire'
+
 	def detail_section_css_class(self):
 		if self.is_retired():
 			return 'product-detail-retired'
