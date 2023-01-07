@@ -185,6 +185,40 @@ class Product(models.Model):
 		target_yearly_price = self.get_target_daily_price() * self.DAYS_IN_YEAR
 		return self.format_price(target_yearly_price)
 
+
+	def get_target_daily_price_difference_string(self):
+		target_daily_price = self.get_target_daily_price()
+		current_daily_price = self.get_current_daily_price()
+
+		price_difference = current_daily_price - target_daily_price
+
+		return self.format_price(price_difference)
+
+	def get_target_weekly_price_difference_string(self):
+		target_weekly_price = self.get_target_daily_price() * 7
+		current_weekly_price = self.get_current_daily_price() * 7
+
+		price_difference = current_weekly_price - target_weekly_price
+
+		return self.format_price(price_difference)
+
+	def get_target_monthly_price_difference_string(self):
+		target_monthly_price = self.get_target_daily_price() * self.DAYS_IN_MONTH
+		current_monthly_price = self.get_current_daily_price() * self.DAYS_IN_MONTH
+
+		price_difference = current_monthly_price - target_monthly_price
+
+		return self.format_price(price_difference)
+
+	def get_target_yearly_price_difference_string(self):
+		target_yearly_price = self.get_target_daily_price() * self.DAYS_IN_YEAR
+		current_yearly_price = self.get_current_daily_price() * self.DAYS_IN_YEAR
+
+		price_difference = current_yearly_price - target_yearly_price
+
+		return self.format_price(price_difference)
+
+
 	# Return today if the product is not retired.
 	def get_retirement_date_field_value(self):
 		if self.is_retired():
