@@ -32,6 +32,10 @@ th {
 	cursor: pointer;
 }
 
+.sortable .sorttable_nosort {
+	cursor: default;
+}
+
 .product-detail-top {
 	margin-bottom: 70px;
 }
