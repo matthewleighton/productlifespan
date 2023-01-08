@@ -8,9 +8,11 @@ from django.http import HttpResponse
 
 from .models import Product
 from .forms import ProductForm
+from .helper import ProductLifespanHelper
 
 from datetime import datetime
 from pprint import pprint
+from currency_converter import CurrencyConverter
 
 def index(request):
 	current_user_id = request.user.id
@@ -28,6 +30,9 @@ def new(request):
 		form = ProductForm(request.POST, request.FILES)
 
 		if form.is_valid():
+
+			print('=======Form is valid!==============')
+
 			new_product = form.save(commit=False)
 			new_product.owner = request.user
 
@@ -40,14 +45,21 @@ def new(request):
 			messages.success(request, f'Product "{product_name}" created.')
 
 			return redirect(f'product/{new_product.id}')
+
+		else:
+			print('=======Form NOT valid!==============')
+
 	
 	else:
 		form = ProductForm()
 
+	currencies = ProductLifespanHelper.get_currencies()
+
 	context = {
 		'form': form,
 		'form_action': reverse('products:new'),
-		'submit_text': 'Create Product'
+		'submit_text': 'Create Product',
+		'currencies': currencies
 	}
 
 	return render(request, 'products/new.html', context)
@@ -62,6 +74,9 @@ def product(request, product_id):
 		form = ProductForm(request.POST, request.FILES, instance=product)
 		
 		if form.is_valid():
+			
+			print('=======Form is valid!==============')
+
 			product = form.save(commit=False)
 			product.owner = request.user
 
@@ -69,6 +84,10 @@ def product(request, product_id):
 			product.target_end_date = target_end_date
 			
 			product.save()
+
+		else:
+			print('=======Form NOT valid!==============')
+
 	
 	else:
 		form = ProductForm(instance=product)
@@ -90,7 +109,7 @@ def product(request, product_id):
 		'retirement_form_action': reverse(f'products:retire', kwargs={'product_id': product_id}),
 		'submit_text': 'Update Product',
 		'graph_data': graph_data,
-		'submit_retirement_form_text': submit_retirement_form_text
+		'submit_retirement_form_text': submit_retirement_form_text,
 	}
 
 	return render(request, 'products/product.html', context)
@@ -131,3 +150,13 @@ def delete(request, product_id):
 	messages.success(request, f'Product "{product_name}" deleted.')
 
 	return redirect('/')
+
+def get_currencies():
+	currencies = list(CurrencyConverter().currencies)
+	currencies.sort()
+
+	currencies.insert(0, currencies.pop(currencies.index('USD')))
+	currencies.insert(0, currencies.pop(currencies.index('GBP')))
+	currencies.insert(0, currencies.pop(currencies.index('EUR')))
+
+	return currencies
