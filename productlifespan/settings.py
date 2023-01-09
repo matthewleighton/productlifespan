@@ -138,6 +138,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = '/'
 
+# TEMPLATE_CONTEXT_PROCESSORS += ("products.context_processors.categories_processor", )
+TEMPLATES[0]['OPTIONS']['context_processors'].append("products.context_processors.categories_processor")
+
 try:
     from local_settings import *
 except ImportError:

@@ -14,7 +14,7 @@
 
 		<div class="col-md-8">
 			<h1>{{ product.name }}</h1>
-			<i>{{ product.get_formatted_price }} | Bought {{product.purchase_date}} ({{product.get_days_since_purchase_string}} ago)</i>
+			<i>{{ product.format_price }} | Bought {{product.purchase_date}} ({{product.get_days_since_purchase_string}} ago)</i>
 			<br/>
 			{% if product.is_retired %}
 				<span>Retired on: {{product.retirement_date}}</span>

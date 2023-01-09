@@ -3,11 +3,7 @@ from currency_converter import CurrencyConverter
 class ProductLifespanHelper():
 
 	def get_currencies(select_field=False):
-
-		c = CurrencyConverter()
-
-		currencies = list(c.currencies)
-
+		currencies = list(CurrencyConverter().currencies)
 		currencies.sort()
 
 		currencies.insert(0, currencies.pop(currencies.index('USD')))

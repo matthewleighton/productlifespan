@@ -6,7 +6,10 @@ from django_resized import ResizedImageField
 
 import os
 from datetime import date
+from time import perf_counter
 from decimal import Decimal
+from babel.numbers import format_currency
+from currency_converter import CurrencyConverter
 
 from pprint import pprint
 
@@ -113,9 +116,12 @@ class Product(models.Model):
 		return f'{round(number, 1)} {unit}'
 
 	def get_formatted_price(self):
-		currency_symbol = self.get_currency_symbol()
+		user_currency = self.owner.profile.currency
 
-		return f'{currency_symbol}{self.price}'
+		return format_currency(self.price, user_currency, locale='en_US')
+
+		# currency_symbol = self.get_currency_symbol()
+		# return f'{currency_symbol}{self.price}'
 
 	def get_currency_symbol(self):
 		if self.currency == 'GBP':
@@ -141,11 +147,25 @@ class Product(models.Model):
 	def get_end_date_string(self, format_string='%-d %b %Y'):
 		return self.target_end_date.strftime(format_string)
 
-	def format_price(self, price):
-		price = round(price, 2)
-		currency_symbol = self.get_currency_symbol()
+	def format_price(self, price=None):
+		original_currency = self.currency
+		user_currency = self.owner.profile.currency
+		purchase_date = self.purchase_date
 
-		return f'{currency_symbol}{price}'
+		if not price:
+			price = self.price
+
+		if not user_currency:
+			user_currency = original_currency
+
+		# TODO: CurrencyConverter takes about 0.2 secs to load. So we need to store it somewhere, rather than reload it for each operation.
+		# Attaching it to User probably isn't quite the correct way of doing this. Need to look into where it should actually be stored.
+		if not hasattr(User, 'currency_converter'):
+			User.currency_converter = CurrencyConverter(fallback_on_missing_rate=True)
+
+		converted_price = User.currency_converter.convert(price, original_currency, user_currency, date=purchase_date)
+
+		return format_currency(converted_price, user_currency, locale='en_US')
 
 	def get_current_daily_price(self):
 		until_retirement = True if self.is_retired() else False
@@ -258,9 +278,6 @@ class Product(models.Model):
 
 		return ''
 
-
-	
-
 	def detail_section_css_class(self):
 		if self.is_retired():
 			return 'product-detail-retired'
@@ -271,3 +288,10 @@ class Product(models.Model):
 	# See: https://www.kryogenix.org/code/browser/sorttable/#dates
 	def get_sorttable_custom_date_key(self):
 		return self.purchase_date.strftime('%Y%m%d')
+
+class Profile(models.Model):
+	user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
+	currency = models.CharField('Currency', max_length=3)
+
+	def __str__(self):
+		return str(self.user)

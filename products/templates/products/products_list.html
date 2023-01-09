@@ -1,8 +1,9 @@
 {% load static %}
+{% load products_extras %}
 
 <div class="row">
 	<div class="col-md-2">
-		<a class="btn btn-primary new-product-button" target="_blank" href="{% url 'products:new' %}">
+		<a class="btn btn-primary new-product-button" href="{% url 'products:new' %}">
 			<span class="new-product-button-span">
 				<span class="large-plus">&#x2b;</span>
 				<span class="new-product-button-text">Add Product</span>
@@ -10,7 +11,7 @@
 		</a>
 	</div>
 
-	<div class="col-md-8"></div>
+	<div class="col-md-7"></div>
 
 	{% if user_products|length %}
 		<div class="col-md-2 form-check form-switch show-retired-products-checkbox-div">
@@ -43,7 +44,7 @@
 					<a href="{% url 'products:product' product.id %}" class={{ product.get_retired_table_class }}>{{ product.name }}</a>
 					<span class="retired-product-table-label">{{ product.get_product_list_retired_note }}</span>
 				</td>
-				<td>{{ product.get_formatted_price }}</td>
+				<td>{{ product.format_price }}</td>
 				<td sorttable_customkey="{{ product.get_sorttable_custom_date_key }}">{{ product.purchase_date }}</td>
 				<td>{{ product.get_current_monthly_price_string }}</td>
 			</tr>

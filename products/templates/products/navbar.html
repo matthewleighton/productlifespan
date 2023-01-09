@@ -18,7 +18,29 @@
 					</li>
 				{% endif %}
 			</ul>
-		</div>		
+		</div>
+
+		<div>
+			<form id="navbar-currency-form" method="POST" action="{% url 'products:currency' %}">
+				{% csrf_token %}
+				<span>Currency: </span>
+				<select id="navbar-currency-select" onchange="update_currency();" name="currency">
+					{% for c in currencies %}
+						<option value="{{c.0}}" {% if c.0 == user.profile.currency %}selected{% endif %}>{{c.1}}</option>
+					{% endfor %}
+				</select>
+			</form>
+
+			<script type="text/javascript">
+				function update_currency() {
+					document.getElementById('navbar-currency-form').submit();
+				}
+			</script>
+		</div>
+
+
 	</div>
 
+
+	
 </nav>

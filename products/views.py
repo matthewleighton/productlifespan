@@ -4,9 +4,9 @@ from django.http import Http404
 from django.contrib import messages
 from django.urls import reverse
 from django.core.files.storage import FileSystemStorage
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 
-from .models import Product
+from .models import Product, Profile
 from .forms import ProductForm
 from .helper import ProductLifespanHelper
 
@@ -30,9 +30,6 @@ def new(request):
 		form = ProductForm(request.POST, request.FILES)
 
 		if form.is_valid():
-
-			print('=======Form is valid!==============')
-
 			new_product = form.save(commit=False)
 			new_product.owner = request.user
 
@@ -45,10 +42,6 @@ def new(request):
 			messages.success(request, f'Product "{product_name}" created.')
 
 			return redirect(f'product/{new_product.id}')
-
-		else:
-			print('=======Form NOT valid!==============')
-
 	
 	else:
 		form = ProductForm()
@@ -74,9 +67,6 @@ def product(request, product_id):
 		form = ProductForm(request.POST, request.FILES, instance=product)
 		
 		if form.is_valid():
-			
-			print('=======Form is valid!==============')
-
 			product = form.save(commit=False)
 			product.owner = request.user
 
@@ -85,8 +75,6 @@ def product(request, product_id):
 			
 			product.save()
 
-		else:
-			print('=======Form NOT valid!==============')
 
 	
 	else:
@@ -151,12 +139,26 @@ def delete(request, product_id):
 
 	return redirect('/')
 
-def get_currencies():
-	currencies = list(CurrencyConverter().currencies)
-	currencies.sort()
+# Update the user's currency.
+# To be triggered by the navbar select field.
+def currency(request):
+	if request.method != 'POST':
+		return redirect('/')
 
-	currencies.insert(0, currencies.pop(currencies.index('USD')))
-	currencies.insert(0, currencies.pop(currencies.index('GBP')))
-	currencies.insert(0, currencies.pop(currencies.index('EUR')))
+	user = request.user
 
-	return currencies
+	if user.id is None:
+		return redirect('/')
+
+	currency = request.POST.get('currency')
+
+	valid_currencies = ProductLifespanHelper.get_currencies() + ['']
+
+	if not hasattr(user, 'profile'):
+		user.profile = Profile()
+
+	if currency in valid_currencies:
+		user.profile.currency = currency
+		user.profile.save()
+
+	return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
