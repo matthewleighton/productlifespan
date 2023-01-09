@@ -4,12 +4,14 @@
 
 {% if form.errors %}
 
- <div class="alert alert-warning alert-dismissible fade show" role="alert">
- 	There was an error with your form.
- 	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+ <div class="alert alert-warning show" role="alert">
+ 	{% for field, error in form.errors.items %}
+ 		{{ error }}
+ 	{% endfor %}
+
+ 	<!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
  </div>
 
-<p>There was an error with your form.</p>
 {% endif %}
 
 {% if next %}
@@ -23,8 +25,6 @@
 
 <form method="post" action="{% url 'products:register' %}" id="register-form">
 	{% csrf_token %}
-
-	<!-- {{ form.as_p }} -->
 
 	<section class="">
 		<div class="container py-5 h-100">
