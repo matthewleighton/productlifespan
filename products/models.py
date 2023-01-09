@@ -120,9 +120,6 @@ class Product(models.Model):
 
 		return format_currency(self.price, user_currency, locale='en_US')
 
-		# currency_symbol = self.get_currency_symbol()
-		# return f'{currency_symbol}{self.price}'
-
 	def get_currency_symbol(self):
 		if self.currency == 'GBP':
 			return '£'

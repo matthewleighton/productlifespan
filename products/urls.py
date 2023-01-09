@@ -18,10 +18,13 @@ urlpatterns = [
 
 	# *static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
+	path('register', views.register_user, name='register'),
+
     # NOTE: Is it correct that these are in the products urls file?
     # They were originally just in the main productlifespan one, but this was stopping the login and admin pages from working.
     path('accounts/', include('django.contrib.auth.urls')),
     path('admin/', admin.site.urls),
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

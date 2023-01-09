@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.template import loader
 from django.http import Http404
 from django.contrib import messages
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.forms import UserCreationForm 
 from django.urls import reverse
 from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse, HttpResponseRedirect
@@ -162,3 +164,28 @@ def currency(request):
 		user.profile.save()
 
 	return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+def register_user(request):
+	if request.user.is_authenticated:
+		return redirect('/')
+
+	if request.method == 'POST':
+		form = UserCreationForm(request.POST)
+
+		if form.is_valid():
+			form.save()
+			username = form.cleaned_data['username']
+			password = form.cleaned_data['password1']
+
+			user = authenticate(username=username, password=password)
+			login(request, user)
+
+			messages.success(request, ('Account Created'))
+			return redirect('/')
+
+	else:
+		form = UserCreationForm()
+
+	context = {'form': form}
+
+	return render(request, 'register_user.html', context)

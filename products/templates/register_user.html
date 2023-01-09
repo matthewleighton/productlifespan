@@ -1,0 +1,61 @@
+{% extends "products/base.html" %}
+
+{% block content %}
+
+{% if form.errors %}
+
+ <div class="alert alert-warning alert-dismissible fade show" role="alert">
+ 	There was an error with your form.
+ 	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+ </div>
+
+<p>There was an error with your form.</p>
+{% endif %}
+
+{% if next %}
+	{% if user.is_authenticated %}
+	<p>Your account doesn't have access to this page. To proceed,
+	please login with an account that has access.</p>
+	{% else %}
+	<p>Please login to see this page.</p>
+	{% endif %}
+{% endif %}
+
+<form method="post" action="{% url 'products:register' %}" id="register-form">
+	{% csrf_token %}
+
+	<!-- {{ form.as_p }} -->
+
+	<section class="">
+		<div class="container py-5 h-100">
+			<div class="row d-flex justify-content-center align-items-center h-100">
+				<div class="col-12 col-md-8 col-lg-6 col-xl-5">
+					<div class="card shadow-2-strong" style="border-radius: 1rem;">
+						<div class="card-body p-5 text-center">
+
+						<h3 class="mb-5">Create Account</h3>
+
+						<div class="form-outline mb-4">
+							<input class="form-control form-control-lg" type="text" name="username" maxlength="150" autocapitalize="none" autocomplete="username" autofocus="" required="" id="id_username" placeholder="Username">
+						</div>
+
+						<div class="form-outline mb-4">
+							<input class="form-control form-control-lg" type="password" name="password1" autocomplete="new-password" required="" id="id_password1" placeholder="Password">
+						</div>
+
+						<div class="form-outline mb-4">
+							<input class="form-control form-control-lg" type="password" name="password2" autocomplete="new-password" required="" id="id_password2" placeholder="Confirm Password">
+						</div>
+
+						<button class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+</form>
+
+{% endblock %}
