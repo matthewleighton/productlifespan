@@ -4,6 +4,8 @@ from django.templatetags.static import static
 from django.core.exceptions import ObjectDoesNotExist
 from django_resized import ResizedImageField
 
+from .helper import ProductLifespanHelper
+
 import os
 from datetime import date
 from time import perf_counter
@@ -115,16 +117,16 @@ class Product(models.Model):
 
 		return f'{round(number, 1)} {unit}'
 
-	def get_formatted_price(self):
-		user_currency = self.owner.profile.currency
+	# def get_formatted_price(self):
+	# 	user_currency = self.owner.profile.currency
 
-		return format_currency(self.price, user_currency, locale='en_US')
+	# 	return format_currency(self.price, user_currency, locale='en_US')
 
-	def get_currency_symbol(self):
-		if self.currency == 'GBP':
-			return '£'
+	# def get_currency_symbol(self):
+	# 	if self.currency == 'GBP':
+	# 		return '£'
 
-		return '€'
+	# 	return '€'
 
 	def get_current_lifespan_percentage(self):
 		total_lifespan_days   = self.get_total_lifespan_days()
@@ -155,11 +157,7 @@ class Product(models.Model):
 		if not user_currency:
 			user_currency = original_currency
 
-		# TODO: CurrencyConverter takes about 0.2 secs to load. So we need to store it somewhere, rather than reload it for each operation.
-		# Attaching it to User probably isn't quite the correct way of doing this. Need to look into where it should actually be stored.
-		if not hasattr(User, 'currency_converter'):
-			User.currency_converter = CurrencyConverter(fallback_on_missing_rate=True)
-
+		ProductLifespanHelper.initialize_currency_converter()
 		converted_price = User.currency_converter.convert(price, original_currency, user_currency, date=purchase_date)
 
 		return format_currency(converted_price, user_currency, locale='en_US')
