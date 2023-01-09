@@ -20,6 +20,7 @@
 			</ul>
 		</div>
 
+		{% if user.is_authenticated %}
 		<div>
 			<form id="navbar-currency-form" method="POST" action="{% url 'products:currency' %}">
 				{% csrf_token %}
@@ -37,6 +38,7 @@
 				}
 			</script>
 		</div>
+		{% endif %}
 
 
 	</div>
