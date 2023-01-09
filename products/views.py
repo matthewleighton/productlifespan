@@ -48,13 +48,10 @@ def new(request):
 	else:
 		form = ProductForm()
 
-	currencies = ProductLifespanHelper.get_currencies()
-
 	context = {
 		'form': form,
 		'form_action': reverse('products:new'),
 		'submit_text': 'Create Product',
-		'currencies': currencies
 	}
 
 	return render(request, 'products/new.html', context)

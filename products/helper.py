@@ -1,6 +1,8 @@
 from currency_converter import CurrencyConverter
 from django.contrib.auth.models import User
 
+from pprint import pprint
+
 class ProductLifespanHelper():
 
 	# TODO: CurrencyConverter takes about 0.2 secs to load. So we need to store it somewhere, rather than reload it for each operation.
@@ -22,4 +24,6 @@ class ProductLifespanHelper():
 		if not select_field:
 			return currencies
 
-		return [(curr, curr) for curr in currencies]
+		select_options = [(curr, curr) for curr in currencies]
+
+		return select_options
