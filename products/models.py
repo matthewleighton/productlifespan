@@ -15,8 +15,6 @@ from currency_converter import CurrencyConverter
 
 from pprint import pprint
 
-
-
 def get_product_image_location(product, filename):
 	file_extension = filename.split('.')[-1]
 	product_id = product.id
@@ -33,8 +31,8 @@ class Product(models.Model):
 	retirement_date = models.DateField('Retirement Date', blank=True, null=True)
 	image		  = ResizedImageField(size=[250, 250], upload_to=get_product_image_location, blank=True)
 
-	DAYS_IN_MONTH = Decimal(365.25 / 12)
 	DAYS_IN_YEAR  = Decimal(365.25)
+	DAYS_IN_MONTH = Decimal(DAYS_IN_YEAR / 12)
 
 	def __str__(self):
 		return self.name
@@ -97,36 +95,23 @@ class Product(models.Model):
 		return self.format_days_to_best_unit(days_old)
 
 	def format_days_to_best_unit(self, days):
-		days_in_month = 365.25 / 12
-
 		if days < 7:
 			number = days
 			unit = 'day' if days == 1 else 'days'
 
-		elif days < days_in_month:
+		elif days < self.DAYS_IN_MONTH:
 			number = days / 7
 			unit = 'weeks'
 
-		elif days < 365.25:
-			number = days / days_in_month
+		elif days < self.DAYS_IN_YEAR:
+			number = days / self.DAYS_IN_MONTH
 			unit = 'months'
 
 		else:
-			number = days / 365.25
+			number = days / self.DAYS_IN_YEAR
 			unit = 'years'
 
 		return f'{round(number, 1)} {unit}'
-
-	# def get_formatted_price(self):
-	# 	user_currency = self.owner.profile.currency
-
-	# 	return format_currency(self.price, user_currency, locale='en_US')
-
-	# def get_currency_symbol(self):
-	# 	if self.currency == 'GBP':
-	# 		return '£'
-
-	# 	return '€'
 
 	def get_current_lifespan_percentage(self):
 		total_lifespan_days   = self.get_total_lifespan_days()
@@ -146,7 +131,17 @@ class Product(models.Model):
 	def get_end_date_string(self, format_string='%-d %b %Y'):
 		return self.target_end_date.strftime(format_string)
 
-	def format_price(self, price=None):
+	def format_price(self, price=None, convert=True):
+		if convert:
+			price = self.convert_currency(price)
+
+		currency = self.owner.profile.currency
+		if not currency:
+			currency = self.currency
+	
+		return format_currency(price, currency, locale='en_US')
+
+	def convert_currency(self, price=None):
 		original_currency = self.currency
 		user_currency = self.owner.profile.currency
 		purchase_date = self.purchase_date
@@ -160,84 +155,57 @@ class Product(models.Model):
 		ProductLifespanHelper.initialize_currency_converter()
 		converted_price = User.currency_converter.convert(price, original_currency, user_currency, date=purchase_date)
 
-		return format_currency(converted_price, user_currency, locale='en_US')
+		return converted_price
 
-	def get_current_daily_price(self):
-		until_retirement = True if self.is_retired() else False
+	
 
-		days_old = self.get_current_days_old(until_retirement)
-		daily_price = self.price / days_old
+	# Return the cost of the product for a given period (day/week/month/year).
+	# Use convert_currency to specify whether the currency should be converted into the user's default currency.
+	# Use format_price to specify if the final price value should be formatted into a currency string.
+	# Use "when" to specify either "current" or "target".
+	def get_period_price(self, period='day', when='current', convert_currency=True, format_price=True):
+		if when == 'current':
+			daily_price = self.get_current_daily_price()
+		else:
+			daily_price = self.get_target_daily_price()
 
-		return daily_price
+		multiplier = {
+			'day': 1, 'week': 7, 'month': self.DAYS_IN_MONTH, 'year': self.DAYS_IN_YEAR
+		}.get(period)
+
+		period_price = daily_price * multiplier
+
+		if convert_currency:
+			period_price = self.convert_currency(period_price)
+
+		if format_price:
+			period_price = self.format_price(period_price, convert=False)
+
+		return period_price
+
 
 	def get_target_daily_price(self):
 		total_lifespan_days = self.get_total_lifespan_days()
 		return self.price / total_lifespan_days
 
-	def get_current_daily_price_string(self):
-		daily_price = self.get_current_daily_price()
-		return self.format_price(daily_price)
+	def get_current_daily_price(self):
+		until_retirement = True if self.is_retired() else False
 
-	def get_current_weekly_price_string(self):
-		weekly_price = self.get_current_daily_price() * 7
-		return self.format_price(weekly_price)
-
-	def get_current_monthly_price_string(self):
-		monthly_price = self.get_current_daily_price() * self.DAYS_IN_MONTH
-		return self.format_price(monthly_price)
-
-	def get_current_yearly_price_string(self):
-		yearly_price = self.get_current_daily_price() * self.DAYS_IN_YEAR
-		return self.format_price(yearly_price)
-
-	def get_target_daily_price_string(self):
-		target_daily_price = self.get_target_daily_price()
-		return self.format_price(target_daily_price)
-
-	def get_target_weekly_price_string(self):
-		target_weekly_price = self.get_target_daily_price() * 7
-		return self.format_price(target_weekly_price)
-
-	def get_target_monthly_price_string(self):
-		target_monthly_price = self.get_target_daily_price() * self.DAYS_IN_MONTH
-		return self.format_price(target_monthly_price)
-
-	def get_target_yearly_price_string(self):
-		target_yearly_price = self.get_target_daily_price() * self.DAYS_IN_YEAR
-		return self.format_price(target_yearly_price)
+		days_old = self.get_current_days_old(until_retirement)
+		return self.price / days_old
 
 
-	def get_target_daily_price_difference_string(self):
-		target_daily_price = self.get_target_daily_price()
-		current_daily_price = self.get_current_daily_price()
+	def get_period_price_difference(self, period, convert_currency=True, format_price=True):
+		current_price = self.get_period_price(period=period, when='current', convert_currency=convert_currency, format_price=False)
+		target_price  = self.get_period_price(period=period, when='target',  convert_currency=convert_currency, format_price=False)
 
-		price_difference = current_daily_price - target_daily_price
+		price_difference = current_price - target_price
 
-		return self.format_price(price_difference)
+		if not format_price:
+			return price_difference
 
-	def get_target_weekly_price_difference_string(self):
-		target_weekly_price = self.get_target_daily_price() * 7
-		current_weekly_price = self.get_current_daily_price() * 7
+		return self.format_price(price_difference, convert=False)
 
-		price_difference = current_weekly_price - target_weekly_price
-
-		return self.format_price(price_difference)
-
-	def get_target_monthly_price_difference_string(self):
-		target_monthly_price = self.get_target_daily_price() * self.DAYS_IN_MONTH
-		current_monthly_price = self.get_current_daily_price() * self.DAYS_IN_MONTH
-
-		price_difference = current_monthly_price - target_monthly_price
-
-		return self.format_price(price_difference)
-
-	def get_target_yearly_price_difference_string(self):
-		target_yearly_price = self.get_target_daily_price() * self.DAYS_IN_YEAR
-		current_yearly_price = self.get_current_daily_price() * self.DAYS_IN_YEAR
-
-		price_difference = current_yearly_price - target_yearly_price
-
-		return self.format_price(price_difference)
 
 
 	# Return today if the product is not retired.

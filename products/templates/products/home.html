@@ -1,0 +1,41 @@
+{% load products_extras %}
+{% load static %}
+
+<div class="row">
+	<div class="col-md-2">
+		<a class="btn btn-primary new-product-button" href="{% url 'products:new' %}">
+			<span class="new-product-button-span">
+				<span class="large-plus">&#x2b;</span>
+				<span class="new-product-button-text">Add Product</span>
+			</span>
+		</a>
+	</div>
+
+	<div class="col-md-2"></div>
+
+	<div class="col-md-3">
+		<div class="btn-group mr-2" role="group" aria-label="First group">
+			<a class="btn btn-{% if product_list_page %}primary{% else %}secondary{% endif %}" id="product-list-button" href="{% url 'products:index' %}">Product List</a>
+			<a class="btn btn-{% if statistics_page %}primary{% else %}secondary{% endif %}" id="statistics-button" href="{% url 'products:statistics' %}">Statistics</a>
+		</div>
+	</div>
+
+	<div class="col-md-2"></div>
+
+	{% if product_list_page %}
+		{% if user_products|length %}
+			<div class="col-md-2 form-check form-switch show-retired-products-checkbox-div">
+				<input class="form-check-input show-retired-products-checkbox" type="checkbox" id="flexSwitchCheckChecked" onclick="toggle_retired_products();">
+				<label class="form-check-label" for="flexSwitchCheckChecked">Show Retired Products</label>
+			</div>
+		{% endif %}
+	{% endif %}
+</div>
+
+{% if product_list_page %}
+	{% include 'products/products_list.html' %}
+{% elif statistics_page %}
+	{% include 'products/statistics.html' %}
+{% endif %}
+
+<!-- <script src="{% static 'products/homepage_toggle.js' %}"></script> -->

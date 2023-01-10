@@ -3,7 +3,7 @@
 {% block content %}
 
 	{% if user.is_authenticated %}
-		{% include 'products/products_list.html' %}
+		{% include 'products/home.html' %}
 	{% else %}
 		{% include 'products/home_logged_out.html' %}
 	{% endif %}

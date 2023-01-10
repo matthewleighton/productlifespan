@@ -1,10 +1,8 @@
+{% load products_extras %}
+
 <div class="product_detail {{product.detail_section_css_class}}">
 
 	{{graph_data|json_script:"graph-data"}}
-	
-	<div class="row">
-		{% comment %}<i>{{ product.get_formatted_price }} | Bought {{product.purchase_date}} ({{product.get_age_string}} ago)</i>{% endcomment %}
-	</div>
 	
 	<div class="row product-detail-top product-detail-table">
 		<div class="col-md-2">
@@ -47,17 +45,17 @@
 				{% endif %}
 				<tr>
 					<td>Daily</td>
-					<td>{{product.get_current_daily_price_string}}</td>
+					<td>{% get_period_price product 'day' 'current' %}</td>
 				</tr>
 				<tr>
 					<td>Weekly</td>
-					<td>{{product.get_current_weekly_price_string}}</td>
+					<td>{% get_period_price product 'week' 'current' %}</td>
 				</tr><tr>
 					<td>Monthly</td>
-					<td>{{product.get_current_monthly_price_string}}</td>
+					<td>{% get_period_price product 'month' 'current' %}</td>
 				</tr><tr>
 					<td>Yearly</td>
-					<td>{{product.get_current_yearly_price_string}}</td>
+					<td>{% get_period_price product 'year' 'current' %}</td>
 				</tr>
 			</table>
 		</div>
@@ -67,17 +65,17 @@
 				<caption>Target Price</caption>
 				<tr>
 					<td>Daily</td>
-					<td>{{product.get_target_daily_price_string}}</td>
+					<td>{% get_period_price product 'day' 'target' %}</td>
 				</tr>
 				<tr>
 					<td>Weekly</td>
-					<td>{{product.get_target_weekly_price_string}}</td>
+					<td>{% get_period_price product 'week' 'target' %}</td>
 				</tr><tr>
 					<td>Monthly</td>
-					<td>{{product.get_target_monthly_price_string}}</td>
+					<td>{% get_period_price product 'month' 'target' %}</td>
 				</tr><tr>
 					<td>Yearly</td>
-					<td>{{product.get_target_yearly_price_string}}</td>
+					<td>{% get_period_price product 'year' 'target' %}</td>
 				</tr>
 			</table>
 		</div>
@@ -87,21 +85,20 @@
 				<caption>Price Difference</caption>
 				<tr>
 					<td>Daily</td>
-					<td>{{product.get_target_daily_price_difference_string}}</td>
+					<td>{% get_period_price_difference product 'day' %}</td>
 				</tr>
 				<tr>
 					<td>Weekly</td>
-					<td>{{product.get_target_weekly_price_difference_string}}</td>
+					<td>{% get_period_price_difference product 'week' %}</td>
 				</tr><tr>
 					<td>Monthly</td>
-					<td>{{product.get_target_monthly_price_difference_string}}</td>
+					<td>{% get_period_price_difference product 'month' %}</td>
 				</tr><tr>
 					<td>Yearly</td>
-					<td>{{product.get_target_yearly_price_difference_string}}</td>
+					<td>{% get_period_price_difference product 'year' %}</td>
 				</tr>
 			</table>
 		</div>
-
 
 
 <!-- 		<div class="col-md-6">

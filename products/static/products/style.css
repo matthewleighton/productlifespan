@@ -131,6 +131,10 @@ a.retired {
 	text-decoration: line-through;
 }
 
+img.retired {
+	filter: grayscale(100%);
+}
+
 #product-form input {
 	background-color: #bdcee0;
 }
@@ -145,4 +149,8 @@ a.retired {
 
 #product-form select:focus {
 	background-color: white;
+}
+
+#statistics-page {
+	margin-top: 2em;
 }

@@ -1,58 +1,37 @@
 {% load static %}
 {% load products_extras %}
 
-<div class="row">
-	<div class="col-md-2">
-		<a class="btn btn-primary new-product-button" href="{% url 'products:new' %}">
-			<span class="new-product-button-span">
-				<span class="large-plus">&#x2b;</span>
-				<span class="new-product-button-text">Add Product</span>
-			</span>
-		</a>
-	</div>
-
-	<div class="col-md-7"></div>
-
+<div id="product-list-page">
 	{% if user_products|length %}
-		<div class="col-md-2 form-check form-switch show-retired-products-checkbox-div">
-			<input class="form-check-input show-retired-products-checkbox" type="checkbox" id="flexSwitchCheckChecked" onclick="toggle_retired_products();">
-			<label class="form-check-label" for="flexSwitchCheckChecked">Show Retired Products</label>
-		</div>
-	{% endif %}
-
-</div>
-
-
-
-{% if user_products|length %}
-	<table class="table sortable product-list-table">
-		<tr>
-			<th class="sorttable_nosort"></th>
-			<th>Name</th>
-			<th>Price</th>
-			<th class="purchase_date_th">Purchase Date</th>
-			<th>Current Monthly Price</th>
-		</tr>
-		{% for product in user_products %}
-			<tr class="{{ product.get_retired_table_class }}">
-				<td class="td-product-image">
-					<a href="{% url 'products:product' product.id %}">
-						<img src="{{ product.get_image_url }}" alt="Placeholder" class="product-image-small img-fluid">
-					</a>
-				</td>
-				<td>
-					<a href="{% url 'products:product' product.id %}" class={{ product.get_retired_table_class }}>{{ product.name }}</a>
-					<span class="retired-product-table-label">{{ product.get_product_list_retired_note }}</span>
-				</td>
-				<td>{{ product.format_price }}</td>
-				<td sorttable_customkey="{{ product.get_sorttable_custom_date_key }}">{{ product.purchase_date }}</td>
-				<td>{{ product.get_current_monthly_price_string }}</td>
+		<table class="table sortable product-list-table">
+			<tr>
+				<th class="sorttable_nosort"></th>
+				<th>Name</th>
+				<th>Price</th>
+				<th class="purchase_date_th">Purchase Date</th>
+				<th>Current Monthly Price</th>
 			</tr>
-		{% endfor %}
-	</table>
-{% else %}
-	<p>You don't have any products.</p>
-{% endif %}
+			{% for product in user_products %}
+				<tr class="{{ product.get_retired_table_class }}">
+					<td class="td-product-image">
+						<a href="{% url 'products:product' product.id %}">
+							<img src="{{ product.get_image_url }}" alt="Placeholder" class="product-image-small img-fluid {{ product.get_retired_table_class }}">
+						</a>
+					</td>
+					<td>
+						<a href="{% url 'products:product' product.id %}" class={{ product.get_retired_table_class }}>{{ product.name }}</a>
+						<span class="retired-product-table-label">{{ product.get_product_list_retired_note }}</span>
+					</td>
+					<td>{{ product.format_price }}</td>
+					<td sorttable_customkey="{{ product.get_sorttable_custom_date_key }}">{{ product.purchase_date }}</td>
+					<td>{% get_period_price product 'month' 'current' %}</td>
+				</tr>
+			{% endfor %}
+		</table>
+	{% else %}
+		<p>You don't have any products.</p>
+	{% endif %}	
+</div>
 
 <script src="{% static 'products/sorttable.js' %}" defer></script>
 <script src="{% static 'products/product_list.js' %}"></script>

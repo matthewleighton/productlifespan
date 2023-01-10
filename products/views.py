@@ -10,7 +10,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 
 from .models import Product, Profile
 from .forms import ProductForm
-from .helper import ProductLifespanHelper
+from .helper import ProductLifespanHelper as helper
 
 from datetime import datetime
 from pprint import pprint
@@ -22,7 +22,8 @@ def index(request):
 	user_products = Product.objects.filter(owner=current_user_id).order_by('-purchase_date')
 
 	context = {
-		'user_products': user_products
+		'user_products': user_products,
+		'product_list_page': True
 	}
 
 	return render(request, 'products/index.html', context)
@@ -74,28 +75,17 @@ def product(request, product_id):
 			
 			product.save()
 
-
-	
 	else:
 		form = ProductForm(instance=product)
 
-
 	submit_retirement_form_text = 'Update Retirement Date' if product.is_retired() is True else 'Retire'
 
-	graph_data = {
-		'purchase_date': product.purchase_date,
-		'target_end_date': product.target_end_date,
-		'price': product.price
-	}
-
-	template = loader.get_template('products/index.html')
 	context = {
 		'product': product,
 		'form': form,
 		'form_action': reverse(f'products:product', kwargs={'product_id': product_id}),
 		'retirement_form_action': reverse(f'products:retire', kwargs={'product_id': product_id}),
 		'submit_text': 'Update Product',
-		'graph_data': graph_data,
 		'submit_retirement_form_text': submit_retirement_form_text,
 	}
 
@@ -151,7 +141,7 @@ def currency(request):
 
 	currency = request.POST.get('currency')
 
-	valid_currencies = ProductLifespanHelper.get_currencies() + ['']
+	valid_currencies = helper.get_currencies() + ['']
 
 	if not hasattr(user, 'profile'):
 		user.profile = Profile()
@@ -184,3 +174,29 @@ def register_user(request):
 		form = UserCreationForm()
 
 	return render(request, 'register_user.html', {'form': form})
+
+def statistics(request):
+	user_products = Product.objects.filter(owner=request.user)
+
+
+	active_products = Product.objects.filter(owner=request.user, retirement_date=None)
+	active_products_count = len(active_products)
+
+	mean_price = helper.get_average_price(active_products, average_type='mean')
+	median_price = helper.get_average_price(active_products, average_type='median')
+
+	mean_monthly_price = helper.get_average_period_price(active_products, 'month', average_type='mean')
+
+
+
+
+	context = {
+		'products': user_products,
+		'statistics_page': True,
+		'active_products_count': active_products_count,
+		'mean_price': mean_price,
+		'median_price': median_price,
+		'mean_monthly_price': mean_monthly_price
+	}
+
+	return render(request, 'products/index.html', context)

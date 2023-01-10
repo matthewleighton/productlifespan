@@ -15,6 +15,8 @@ urlpatterns = [
 	path('retire/<int:product_id>', views.retire, name='retire'),
 	path('delete/<int:product_id>', views.delete, name='delete'),
 	path('currency', views.currency, name='currency'),
+	path('statistics', views.statistics, name='statistics'),
+
 
 	# *static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
