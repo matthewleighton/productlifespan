@@ -1,6 +1,16 @@
 <div id="statistics-page">
 
-	<p><strong>Active Products:</strong> {{ products|length }}</p>
+	<h1>
+		{{ products|length }} {% if filter == 'all' %}Total{% else %}{{ filter|title }}{% endif %} Product{{products|length|pluralize}}
+	</h1>
+
+	<h3>Average Lifespan Completion:</h3>
+	<progress value="{{ average_lifespan_percentage }}" max="100" id="lifespan-progress-bar"></progress>
+	<span id="lifespan-progress-percentage" style="left:{{ average_lifespan_percentage|add:"-1" }}%">{{ average_lifespan_percentage|floatformat }}%</span>
+
+
+	<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+
 	<p><strong>Mean Price:</strong> {{ mean_price }}</p>
 	<p><strong>Median Price:</strong> {{ median_price }}</p>
 

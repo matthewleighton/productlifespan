@@ -154,3 +154,19 @@ img.retired {
 #statistics-page {
 	margin-top: 2em;
 }
+
+#statistics-page h1 {
+	text-align: center;
+}
+
+
+#statistics-page #lifespan-progress-bar {
+	width: 100%;
+}
+
+#lifespan-progress-percentage {
+	bottom: 0.5em;
+	font-size: 1.4em;
+	font-weight: bold;
+	position: relative;
+}

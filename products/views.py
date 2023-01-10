@@ -185,6 +185,17 @@ def statistics(request):
 	elif product_filter == 'retired':
 		products = products.exclude(retirement_date=None)
 
+	context = {
+		'products': products,
+		'filter': product_filter,
+		'statistics_page': True
+	}
+
+	template = 'products/index.html'
+
+	if not len(products):
+		return render(request, template, context)
+
 	mean_price = helper.get_average_price(products, average_type='mean')
 	median_price = helper.get_average_price(products, average_type='median')
 
@@ -197,12 +208,9 @@ def statistics(request):
 	average_current_product_age = helper.get_average_product_age(products, average_type='mean', when='current')
 	average_target_product_age = helper.get_average_product_age(products, average_type='mean', when='target')
 
-	average_lifespan_percentage = helper.get_average_lifespan_percentage(products, average_type='mean')
+	average_lifespan_percentage = helper.get_average_lifespan_percentage(products, average_type='mean', format_percentage=False)
 
-	context = {
-		'products': products,
-		'filter': product_filter,
-		'statistics_page': True,
+	context.update({
 		'mean_price': mean_price,
 		'median_price': median_price,
 
@@ -216,6 +224,6 @@ def statistics(request):
 		'average_target_product_age': average_target_product_age,
 
 		'average_lifespan_percentage': average_lifespan_percentage
-	}
+	})
 
-	return render(request, 'products/index.html', context)
+	return render(request, template, context)
