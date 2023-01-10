@@ -15,8 +15,8 @@
 
 	<div class="col-md-3">
 		<div class="btn-group mr-2" role="group" aria-label="First group">
-			<a class="btn btn-{% if product_list_page %}primary{% else %}secondary{% endif %}" id="product-list-button" href="{% url 'products:index' %}">Product List</a>
-			<a class="btn btn-{% if statistics_page %}primary{% else %}secondary{% endif %}" id="statistics-button" href="{% url 'products:statistics' %}">Statistics</a>
+			<a class="btn btn-{% if product_list_page %}primary{% else %}secondary{% endif %}" href="{% url 'products:index' %}">Product List</a>
+			<a class="btn btn-{% if statistics_page %}primary{% else %}secondary{% endif %}" href="{% url 'products:statistics' %}">Statistics</a>
 		</div>
 	</div>
 
@@ -29,6 +29,14 @@
 				<label class="form-check-label" for="flexSwitchCheckChecked">Show Retired Products</label>
 			</div>
 		{% endif %}
+	{% elif statistics_page %}
+		<div class="col-md-3">
+			<div class="btn-group mr-2" role="group" aria-label="First group">
+				<a class="btn btn-{% if filter == 'active' %}primary{% else %}secondary{% endif %}" href="{% url 'products:statistics' %}">Active</a>
+				<a class="btn btn-{% if filter == 'retired' %}primary{% else %}secondary{% endif %}" href="{% url 'products:statistics' %}?filter=retired">Retired</a>
+				<a class="btn btn-{% if filter == 'all' %}primary{% else %}secondary{% endif %}" href="{% url 'products:statistics' %}?filter=all">All</a>
+			</div>
+		</div>
 	{% endif %}
 </div>
 
@@ -37,5 +45,3 @@
 {% elif statistics_page %}
 	{% include 'products/statistics.html' %}
 {% endif %}
-
-<!-- <script src="{% static 'products/homepage_toggle.js' %}"></script> -->

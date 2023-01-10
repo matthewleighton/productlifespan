@@ -22,9 +22,11 @@
 						<a href="{% url 'products:product' product.id %}" class={{ product.get_retired_table_class }}>{{ product.name }}</a>
 						<span class="retired-product-table-label">{{ product.get_product_list_retired_note }}</span>
 					</td>
-					<td>{{ product.format_price }}</td>
+					<td sorttable_customkey="{{ product.convert_currency }}" >{{ product.format_price }}</td>
 					<td sorttable_customkey="{{ product.get_sorttable_custom_date_key }}">{{ product.purchase_date }}</td>
-					<td>{% get_period_price product 'month' 'current' %}</td>
+					<td sorttable_customkey="{% get_period_price product 'month' 'current' convert_currency=True format_price=False %}">
+						{% get_period_price product 'month' 'current' %}
+					</td>
 				</tr>
 			{% endfor %}
 		</table>

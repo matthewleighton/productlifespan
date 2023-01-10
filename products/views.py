@@ -176,31 +176,33 @@ def register_user(request):
 	return render(request, 'register_user.html', {'form': form})
 
 def statistics(request):
-	user_products = Product.objects.filter(owner=request.user)
+	products = Product.objects.filter(owner=request.user)
 
+	product_filter = request.GET.get('filter', 'active')
+	
+	if product_filter == 'active':
+		products = products.filter(retirement_date=None)
+	elif product_filter == 'retired':
+		products = products.exclude(retirement_date=None)
 
-	active_products = Product.objects.filter(owner=request.user, retirement_date=None)
-	active_products_count = len(active_products)
+	mean_price = helper.get_average_price(products, average_type='mean')
+	median_price = helper.get_average_price(products, average_type='median')
 
-	mean_price = helper.get_average_price(active_products, average_type='mean')
-	median_price = helper.get_average_price(active_products, average_type='median')
+	mean_daily_price = helper.get_average_period_price(products, 'day', average_type='mean')
+	mean_monthly_price = helper.get_average_period_price(products, 'month', average_type='mean')
 
-	mean_daily_price = helper.get_average_period_price(active_products, 'day', average_type='mean')
-	mean_monthly_price = helper.get_average_period_price(active_products, 'month', average_type='mean')
+	total_current_monthly_price = helper.get_total_period_price(products, 'month', when='current')
+	total_target_monthly_price = helper.get_total_period_price(products, 'month', when='target')
 
-	total_current_monthly_price = helper.get_total_period_price(active_products, 'month', when='current')
-	total_target_monthly_price = helper.get_total_period_price(active_products, 'month', when='target')
+	average_current_product_age = helper.get_average_product_age(products, average_type='mean', when='current')
+	average_target_product_age = helper.get_average_product_age(products, average_type='mean', when='target')
 
-	average_current_product_age = helper.get_average_product_age(active_products, average_type='mean', when='current')
-	average_target_product_age = helper.get_average_product_age(active_products, average_type='mean', when='target')
-
-	average_lifespan_percentage = helper.get_average_lifespan_percentage(active_products, average_type='mean')
-
+	average_lifespan_percentage = helper.get_average_lifespan_percentage(products, average_type='mean')
 
 	context = {
-		'products': user_products,
+		'products': products,
+		'filter': product_filter,
 		'statistics_page': True,
-		'active_products_count': active_products_count,
 		'mean_price': mean_price,
 		'median_price': median_price,
 
