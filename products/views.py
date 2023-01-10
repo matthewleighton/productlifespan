@@ -185,7 +185,11 @@ def statistics(request):
 	mean_price = helper.get_average_price(active_products, average_type='mean')
 	median_price = helper.get_average_price(active_products, average_type='median')
 
+	mean_daily_price = helper.get_average_period_price(active_products, 'day', average_type='mean')
 	mean_monthly_price = helper.get_average_period_price(active_products, 'month', average_type='mean')
+
+	total_current_monthly_price = helper.get_total_period_price(active_products, 'month', when='current')
+	total_target_monthly_price = helper.get_total_period_price(active_products, 'month', when='target')
 
 
 
@@ -196,7 +200,12 @@ def statistics(request):
 		'active_products_count': active_products_count,
 		'mean_price': mean_price,
 		'median_price': median_price,
-		'mean_monthly_price': mean_monthly_price
+
+		'mean_daily_price': mean_daily_price,
+		'mean_monthly_price': mean_monthly_price,
+
+		'total_current_monthly_price': total_current_monthly_price,
+		'total_target_monthly_price': total_target_monthly_price
 	}
 
 	return render(request, 'products/index.html', context)

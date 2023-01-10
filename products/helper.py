@@ -42,9 +42,14 @@ class ProductLifespanHelper():
 
 		return format_currency(averaged_price, user_currency, locale='en_US')
 
-	def get_average_period_price(products, period, average_type='mean', format_price=True):
-		average_function = np.mean if average_type == 'mean' else np.median
-		averaged_price = average_function([ p.get_period_price(period=period, when='current', convert_currency=True, format_price=False) for p in products ])
+	def get_average_period_price(products, period, when='current', average_type='mean', format_price=True):
+		average_function = {
+			'mean': np.mean,
+			'median': np.median,
+			'sum': np.sum
+		}.get(average_type)
+
+		averaged_price = average_function([ p.get_period_price(period=period, when=when, convert_currency=True, format_price=False) for p in products ])
 
 		if not format_price:
 			return averaged_price
@@ -52,3 +57,6 @@ class ProductLifespanHelper():
 		user_currency = products[0].owner.profile.currency
 
 		return format_currency(averaged_price, user_currency, locale='en_US')		
+
+	def get_total_period_price(products, period, when='current', format_price=True):
+		return __class__.get_average_period_price(products, period, when=when, average_type='sum', format_price=format_price)
