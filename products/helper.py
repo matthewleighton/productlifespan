@@ -8,6 +8,9 @@ from pprint import pprint
 
 class ProductLifespanHelper():
 
+	DAYS_IN_YEAR = 365.25
+	DAYS_IN_MONTH = DAYS_IN_YEAR / 12
+
 	# TODO: CurrencyConverter takes about 0.2 secs to load. So we need to store it somewhere, rather than reload it for each operation.
 	# Attaching it to User probably isn't quite the correct way of doing this. Need to look into where it should actually be stored.
 	def initialize_currency_converter():
@@ -43,11 +46,7 @@ class ProductLifespanHelper():
 		return format_currency(averaged_price, user_currency, locale='en_US')
 
 	def get_average_period_price(products, period, when='current', average_type='mean', format_price=True):
-		average_function = {
-			'mean': np.mean,
-			'median': np.median,
-			'sum': np.sum
-		}.get(average_type)
+		average_function = __class__.get_average_function(average_type)
 
 		averaged_price = average_function([ p.get_period_price(period=period, when=when, convert_currency=True, format_price=False) for p in products ])
 
@@ -60,3 +59,51 @@ class ProductLifespanHelper():
 
 	def get_total_period_price(products, period, when='current', format_price=True):
 		return __class__.get_average_period_price(products, period, when=when, average_type='sum', format_price=format_price)
+
+	def get_average_product_age(products, average_type='mean', when='current'):
+		average_function = __class__.get_average_function(average_type)
+		age_in_days = average_function([ p.get_age_days(when=when) for p in products ])
+
+		return __class__.format_days_to_best_unit(age_in_days)
+
+	def get_average_lifespan_percentage(products, average_type, format_percentage=True):
+		average_function = __class__.get_average_function(average_type)
+
+		average_lifespan_percentage = average_function([ p.get_current_lifespan_percentage(round_value=False) for p in products ])
+
+		if format_percentage:
+			return str(round(average_lifespan_percentage, 2)) + '%'
+		
+		return average_lifespan_percentage
+
+
+	def get_average_function(average_type):
+		average_function = {
+			'mean': np.mean,
+			'median': np.median,
+			'sum': np.sum,
+			'standard_deviation': np.std
+		}.get(average_type)
+
+		return average_function
+
+	def format_days_to_best_unit(days):
+		abs_days = abs(days)
+
+		if abs_days < 7:
+			number = days
+			unit = 'day' if days == 1 else 'days'
+
+		elif abs_days < __class__.DAYS_IN_MONTH:
+			number = days / 7
+			unit = 'weeks'
+
+		elif abs_days < __class__.DAYS_IN_YEAR:
+			number = days / __class__.DAYS_IN_MONTH
+			unit = 'months'
+
+		else:
+			number = days / __class__.DAYS_IN_YEAR
+			unit = 'years'
+
+		return f'{round(number, 1)} {unit}'

@@ -4,7 +4,7 @@ from django.templatetags.static import static
 from django.core.exceptions import ObjectDoesNotExist
 from django_resized import ResizedImageField
 
-from .helper import ProductLifespanHelper
+from .helper import ProductLifespanHelper as helper
 
 import os
 from datetime import date
@@ -74,6 +74,13 @@ class Product(models.Model):
 
 		return days_old
 
+	# Return the product's age in days. Either its current age, or target age at retirement.
+	def get_age_days(self, when='current'):
+		if when == 'target':
+			return self.get_total_lifespan_days()
+
+		return self.get_current_lifespan_days()
+
 	def get_total_lifespan_days(self):
 		return (self.target_end_date - self.purchase_date).days
 
@@ -86,47 +93,29 @@ class Product(models.Model):
 	def get_days_since_purchase_string(self):
 		days_old = self.get_current_days_old()
 
-		return self.format_days_to_best_unit(days_old)
+		return helper.format_days_to_best_unit(days_old)
 
 	def get_lifetime_string(self):
 		until_retirement = True if self.is_retired() else False
 		days_old = self.get_current_days_old(until_retirement)
 
-		return self.format_days_to_best_unit(days_old)
+		return helper.format_days_to_best_unit(days_old)
 
-	def format_days_to_best_unit(self, days):
-		if days < 7:
-			number = days
-			unit = 'day' if days == 1 else 'days'
-
-		elif days < self.DAYS_IN_MONTH:
-			number = days / 7
-			unit = 'weeks'
-
-		elif days < self.DAYS_IN_YEAR:
-			number = days / self.DAYS_IN_MONTH
-			unit = 'months'
-
-		else:
-			number = days / self.DAYS_IN_YEAR
-			unit = 'years'
-
-		return f'{round(number, 1)} {unit}'
-
-	def get_current_lifespan_percentage(self):
+	def get_current_lifespan_percentage(self, round_value=True):
 		total_lifespan_days   = self.get_total_lifespan_days()
 		current_lifespan_days = self.get_current_lifespan_days()
 
 		current_lifespan_percentage = (current_lifespan_days / total_lifespan_days)*100
 
-		current_lifespan_percentage = round(current_lifespan_percentage, 2)
+		if round_value:
+			current_lifespan_percentage = round(current_lifespan_percentage, 2)
 
 		return current_lifespan_percentage
 
 	def get_remaining_lifetime(self):
 		remaining_days = (self.target_end_date - date.today()).days
 
-		return self.format_days_to_best_unit(remaining_days) + ' remaining'
+		return helper.format_days_to_best_unit(remaining_days) + ' remaining'
 
 	def get_end_date_string(self, format_string='%-d %b %Y'):
 		return self.target_end_date.strftime(format_string)
@@ -152,12 +141,10 @@ class Product(models.Model):
 		if not user_currency:
 			user_currency = original_currency
 
-		ProductLifespanHelper.initialize_currency_converter()
+		helper.initialize_currency_converter()
 		converted_price = User.currency_converter.convert(price, original_currency, user_currency, date=purchase_date)
 
 		return converted_price
-
-	
 
 	# Return the cost of the product for a given period (day/week/month/year).
 	# Use convert_currency to specify whether the currency should be converted into the user's default currency.

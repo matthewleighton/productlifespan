@@ -191,7 +191,10 @@ def statistics(request):
 	total_current_monthly_price = helper.get_total_period_price(active_products, 'month', when='current')
 	total_target_monthly_price = helper.get_total_period_price(active_products, 'month', when='target')
 
+	average_current_product_age = helper.get_average_product_age(active_products, average_type='mean', when='current')
+	average_target_product_age = helper.get_average_product_age(active_products, average_type='mean', when='target')
 
+	average_lifespan_percentage = helper.get_average_lifespan_percentage(active_products, average_type='mean')
 
 
 	context = {
@@ -205,7 +208,12 @@ def statistics(request):
 		'mean_monthly_price': mean_monthly_price,
 
 		'total_current_monthly_price': total_current_monthly_price,
-		'total_target_monthly_price': total_target_monthly_price
+		'total_target_monthly_price': total_target_monthly_price,
+
+		'average_current_product_age': average_current_product_age,
+		'average_target_product_age': average_target_product_age,
+
+		'average_lifespan_percentage': average_lifespan_percentage
 	}
 
 	return render(request, 'products/index.html', context)
