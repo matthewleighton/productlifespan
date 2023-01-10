@@ -4,11 +4,40 @@
 		{{ products|length }} {% if filter == 'all' %}Total{% else %}{{ filter|title }}{% endif %} Product{{products|length|pluralize}}
 	</h1>
 
-	<h3>Average Lifespan Completion:</h3>
-	<progress value="{{ average_lifespan_percentage }}" max="100" id="lifespan-progress-bar"></progress>
-	<span id="lifespan-progress-percentage" style="left:{{ average_lifespan_percentage|add:"-1" }}%">{{ average_lifespan_percentage|floatformat }}%</span>
+	{% if products|length %}
+
+		<h3>Average Lifespan Completion:</h3>
+		<progress value="{{ average_lifespan_percentage }}" max="100" id="lifespan-progress-bar"></progress>
+		<span id="lifespan-progress-percentage" style="left:{{ average_lifespan_percentage|add:"-1" }}%">{{ average_lifespan_percentage|floatformat }}%</span>
+
+		<div class="row justify-content-md-center">
+			<table class="table">
+				<tr>
+					<th></th>
+					<th>Current</th>
+					<th>Target</th>
+				</tr>
+				<tr>
+					<th>Total Monthly Price</th>
+					<td>{{ total_current_monthly_price }}</td>
+					<td>{{ total_target_monthly_price }}</td>
+				</tr>
+				<tr>
+					<th>Average Product Age</th>
+					<td>{{ average_current_product_age }}</td>
+					<td>{{ average_target_product_age }}</td>
+				</tr>
+			</table>
+		</div>
+
+		
+
+	{% endif %}
 
 
+
+
+	<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 	<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 
 	<p><strong>Mean Price:</strong> {{ mean_price }}</p>
@@ -21,24 +50,7 @@
 
 	<br/>
 
-	<p><strong>Total Current Monthly Price:</strong> {{ total_current_monthly_price }}</p>
-	<p><strong>Total Target Monthly Price:</strong> {{ total_target_monthly_price }}</p>
-
-	<br/>
-
 	<p><strong>Average Current Product Age:</strong> {{ average_current_product_age }}</p>
 	<p><strong>Average Target Product Age:</strong> {{ average_target_product_age }}</p>
-
-	<br/>
-
-	<p><strong>Average Lifespan Percentage:</strong> {{ average_lifespan_percentage }}</p>
-
-
-	
-
-
-
-
-
 
 </div>

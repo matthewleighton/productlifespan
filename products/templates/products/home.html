@@ -11,16 +11,14 @@
 		</a>
 	</div>
 
-	<div class="col-md-2"></div>
 
-	<div class="col-md-3">
+	<div class="col-md-8">
 		<div class="btn-group mr-2" role="group" aria-label="First group">
 			<a class="btn btn-{% if product_list_page %}primary{% else %}secondary{% endif %}" href="{% url 'products:index' %}">Product List</a>
 			<a class="btn btn-{% if statistics_page %}primary{% else %}secondary{% endif %}" href="{% url 'products:statistics' %}">Statistics</a>
 		</div>
 	</div>
 
-	<div class="col-md-2"></div>
 
 	{% if product_list_page %}
 		{% if user_products|length %}
@@ -30,7 +28,7 @@
 			</div>
 		{% endif %}
 	{% elif statistics_page %}
-		<div class="col-md-3">
+		<div class="col-md-2">
 			<div class="btn-group mr-2" role="group" aria-label="First group">
 				<a class="btn btn-{% if filter == 'active' %}primary{% else %}secondary{% endif %}" href="{% url 'products:statistics' %}">Active</a>
 				<a class="btn btn-{% if filter == 'retired' %}primary{% else %}secondary{% endif %}" href="{% url 'products:statistics' %}?filter=retired">Retired</a>

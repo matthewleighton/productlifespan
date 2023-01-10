@@ -152,13 +152,12 @@ img.retired {
 }
 
 #statistics-page {
-	margin-top: 2em;
+	margin-top: 2.5em;
 }
 
 #statistics-page h1 {
 	text-align: center;
 }
-
 
 #statistics-page #lifespan-progress-bar {
 	width: 100%;
@@ -169,4 +168,17 @@ img.retired {
 	font-size: 1.4em;
 	font-weight: bold;
 	position: relative;
+}
+
+.statistics-row {
+	font-size: 1.5em;
+	margin-top: 2em;
+}
+
+#statistics-page table {
+	font-size: 1.5em;
+}
+
+#statistics-page td, #statistics-page th {
+	padding: 1em;
 }
