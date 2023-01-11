@@ -112,4 +112,12 @@ purchase_date_field.addEventListener('change', update_lifespan_fields);
 // with the new price/purchase date.
 var last_edited_lifespan_field = 'target_end_date';
 
+
+var delete_confirmation = function(e) {
+	if (!confirm('Are you sure you want to delete this product?')) e.preventDefault();
+}
+document.getElementById('product-delete-button').addEventListener('click', delete_confirmation, false);
+
+
+
 initialize_fields();

@@ -28,7 +28,7 @@
 
 		</div>
 		<div class="col-md-2">
-			<button type="button" class="btn btn-danger" id="product-retire-button" onclick="display_retirement_form()">{{ product.get_retire_button_text }}</button>
+			<button type="button" class="btn btn-{% if product.is_retired %}success{% else %}danger{% endif %}" id="product-retire-button" onclick="display_retirement_form()">{{ product.get_retire_button_text }}</button>
 			<button type="button" class="btn btn-primary" id="product-edit-toggle-button" onclick="toggle_product_form()">Edit</button>
 		</div>
 

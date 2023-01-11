@@ -6,32 +6,45 @@ function toggle_product_form() {
 	}
 }
 
+function hide_product_tables() {
+	product_detail_middle.classList.add('d-none');
+	product_detail_middle.classList.remove('d-flex');
+}
+
+function show_product_tables() {
+	product_detail_middle.classList.add('d-flex');
+	product_detail_middle.classList.remove('d-none');
+}
+
 function show_product_form() {
 	retirement_form.style.display ="none";
 	product_detail_middle.style.display = "none";
+
+	hide_product_tables();
+
 	product_form.style.display = "flex";
 	product_edit_button.innerHTML = "Details";
 }
 
 function hide_product_form() {
-	product_detail_middle.style.display = "flex";
+	show_product_tables();
+
 	product_form.style.display = "none";
 	product_edit_button.innerHTML = product_edit_button_original_text;
 }
 
 function display_retirement_form() {
 	retirement_form.style.display ="flex";
-	product_detail_middle.style.display = "none";
+	hide_product_tables();
 	product_form.style.display = "none";
 	product_edit_button.innerHTML = product_edit_button_original_text;
 }
 
 function hide_retirement_form() {
 	retirement_form.style.display ="none";
-	product_detail_middle.style.display = "flex";
+	show_product_tables();
 	product_form.style.display = "none";
 }
-
 
 function undo_retirement() {
 	retirement_date_field.value = '';

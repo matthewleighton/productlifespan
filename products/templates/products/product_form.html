@@ -72,7 +72,7 @@
 		<div class="col-7">
 			<button type="submit" class="btn btn-primary">{{ submit_text }}</button>
 			{% if product.id %}
-				<a class="btn btn-danger pull-right" href="{% url 'products:delete' product.id %}" role="button">Delete Product</a>
+				<a class="btn btn-danger pull-right" href="{% url 'products:delete' product.id %}" role="button" id="product-delete-button">Delete Product</a>
 			{% endif %}
 		</div>
 	</div>

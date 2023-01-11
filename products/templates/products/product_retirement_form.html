@@ -7,17 +7,23 @@
 
 	{% csrf_token %}
 
-	<div class="col-md-6">
-		<label for="target_end_date" class="form-label">Retirement Date</label>
-		<input type="date" value="{{ product.get_retirement_date_field_value.isoformat }}" name="retirement_date" id="id_retirement_date" class="form-control" autocomplete="off"/>
-	</div>
 
-	<div class="col-12">
-		<button type="submit" class="btn btn-danger">{{ submit_retirement_form_text }}</button>
-		{% if product.is_retired %}
-			<button class="btn btn-success" onclick="undo_retirement()" type="button">Un-Retire Product</button>
-		{% endif %}
-		<button class="btn btn-primary" onclick="hide_retirement_form()" type="button">Cancel</button>
+	<div class="row d-flex justify-content-center">
+		<div class="col-6">
+			<label for="target_end_date" class="form-label">Retirement Date</label>
+			<input type="date" value="{{ product.get_retirement_date_field_value.isoformat }}" name="retirement_date" id="id_retirement_date" class="form-control" autocomplete="off"/>
+		</div>
+	</div>
+	
+
+	<div class="row gy-2 d-flex justify-content-center">
+		<div class="col-md-6">
+			<button type="submit" class="btn btn-danger">{{ submit_retirement_form_text }}</button>
+			{% if product.is_retired %}
+				<button class="btn btn-success" onclick="undo_retirement()" type="button">Un-Retire Product</button>
+			{% endif %}
+			<button class="btn btn-primary" onclick="hide_retirement_form()" type="button">Cancel</button>
+		</div>		
 	</div>
 
 </form>
