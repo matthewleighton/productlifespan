@@ -1,27 +1,30 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand navbar-dark bg-dark">
 	
 	<div class="container">
 		<a class="navbar-brand mr-auto" href="{% url 'products:index' %}">Product Lifespan</a>
 
 		<ul class="navbar-nav">
 			{% if user.is_authenticated %}
-				<form id="navbar-currency-form" method="POST" action="{% url 'products:currency' %}">
-					{% csrf_token %}
-					<span class="tt">
-						<span data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-custom-class="custom-tooltip" data-bs-title="This is the output currency which all prices are display in.">Currency: </span>
-					</span>
-					<select id="navbar-currency-select" onchange="update_currency();" name="currency">
-						{% for c in currencies %}
-							<option value="{{c.0}}" {% if c.0 == user.profile.currency %}selected{% endif %}>{{c.1}}</option>
-						{% endfor %}
-					</select>
-				</form>
+				<li>
+					<form id="navbar-currency-form" method="POST" action="{% url 'products:currency' %}">
+						{% csrf_token %}
+						<span class="tt">
+							<span data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-custom-class="custom-tooltip" data-bs-title="This is the output currency which all prices are display in.">Currency: </span>
+						</span>
+						<select id="navbar-currency-select" onchange="update_currency();" name="currency">
+							{% for c in currencies %}
+								<option value="{{c.0}}" {% if c.0 == user.profile.currency %}selected{% endif %}>{{c.1}}</option>
+							{% endfor %}
+						</select>
+					</form>
 
-				<script type="text/javascript">
-					function update_currency() {
-						document.getElementById('navbar-currency-form').submit();
-					}
-				</script>
+					<script type="text/javascript">
+						function update_currency() {
+							document.getElementById('navbar-currency-form').submit();
+						}
+					</script>
+				</li>
+				
 
 				<li class="nav-item">
 					<a class="nav-link" href="{% url 'logout' %}">Logout</a>
