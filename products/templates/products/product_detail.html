@@ -34,14 +34,13 @@
 
 	</div>
 
-	<div class="row" id="product-detail-middle">
-		<div class="col-md-1"></div>
+	<div class="row d-flex justify-content-center" id="product-detail-middle">
 		<div class="col-md-3">
 			<table class="table product-detail-table">
 				{% if product.is_retired %}
-					<caption>Price at Retirement</caption>
+					<caption class="text-center">Price at Retirement</caption>
 				{% else %}
-					<caption>Current Price</caption>
+					<caption class="text-center">Current Price</caption>
 				{% endif %}
 				<tr>
 					<td>Daily</td>
@@ -62,7 +61,7 @@
 
 		<div class="col-md-3 product-detail-table">
 			<table class="table">
-				<caption>Target Price</caption>
+				<caption class="text-center">Target Price</caption>
 				<tr>
 					<td>Daily</td>
 					<td>{% get_period_price product 'day' 'target' %}</td>
@@ -82,7 +81,7 @@
 
 		<div class="col-md-3 product-detail-table">
 			<table class="table">
-				<caption>Price Difference</caption>
+				<caption class="text-center">Price Difference</caption>
 				<tr>
 					<td>Daily</td>
 					<td>{% get_period_price_difference product 'day' %}</td>

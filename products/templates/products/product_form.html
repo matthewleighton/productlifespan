@@ -9,59 +9,76 @@
 
 	{% csrf_token %}
 
-	<div class="col-md-6">
-		<label for="id_name" class="form-label" autocomplete="off">Product Name</label>
-		{{ form.name }}
+	<div class="row d-flex justify-content-center gy-2">
+
+		<div class="col-md-4">
+			<label for="id_name" class="form-label" autocomplete="off">Product Name</label>
+			{{ form.name }}
+		</div>
+
+		<div class="col-md-2">
+			<label for="id_price" class="form-label" autocomplete="off">Product Price</label>
+			{{ form.price }}
+		</div>
+
+		<div class="col-md-1">
+			<label for="id_currency" class="form-label">Currency</label>
+			{{ form.currency }}
+		</div>
+
 	</div>
 
-	<div class="col-md-6">
-		<label for="id_price" class="form-label" autocomplete="off">Product Price</label>
-		{{ form.price }}
+	<div class="row d-flex justify-content-center gy-2">
+		<div class="col-md-2">
+			<label for="id_purchase_date" class="form-label">Date Purchased</label>
+			{{ form.purchase_date }}
+		</div>
+
+
+		<div class="col-md-5">
+			<label for="id_currency" class="form-label">Image</label>
+			{{ form.image }}
+		</div>
 	</div>
 
-	<div class="col-md-6">
-		<label for="id_purchase_date" class="form-label">Date Purchased</label>
-		{{ form.purchase_date }}
+
+	<div class="row d-flex justify-content-center gy-4">
+		<div class="col-md-5">
+			<label for="target_end_date" class="form-label">Target Retirement Date</label>
+			{{ form.target_end_date }}
+		</div>
+
+		<div class="col-md-2">
+			<label for="target_age" class="form-label" autocomplete="off">Target Age (years)</label>
+			{{ form.target_age }}
+		</div>
 	</div>
 
-	<div class="col-md-6">
-		<label for="id_currency" class="form-label">Currency</label>
-		{{ form.currency }}
-	</div>
 
-	<div class="col-md-6">
-		<label for="id_currency" class="form-label">Image</label>
-		{{ form.image }}
-	</div>
+	<div class="row d-flex justify-content-center gy-2">
+		<div class="col-md-5">
+			<label for="target_price_amount" class="form-label" autocomplete="off">Target Price Amount</label>
+			{{ form.target_price_amount }}
+		</div>
 
-	<hr/>
-
-	<div class="col-md-6">
-		<label for="target_end_date" class="form-label">Target End Date</label>
-		{{ form.target_end_date }}
+		<div class="col-md-2">
+			<label for="target_price_period" class="form-label">Target Price Period</label>
+			{{ form.target_price_period }}
+		</div>
 	</div>
+	
 
-	<div class="col-md-6">
-		<label for="target_age" class="form-label" autocomplete="off">Target Age (years)</label>
-		{{ form.target_age }}
+	<div class="row d-flex justify-content-center gy-3">
+		<div class="col-7">
+			<button type="submit" class="btn btn-primary">{{ submit_text }}</button>
+			{% if product.id %}
+				<a class="btn btn-danger pull-right" href="{% url 'products:delete' product.id %}" role="button">Delete Product</a>
+			{% endif %}
+		</div>
 	</div>
+	
 
-	<div class="col-md-6">
-		<label for="target_price_amount" class="form-label" autocomplete="off">Target Price Amount</label>
-		{{ form.target_price_amount }}
-	</div>
-
-	<div class="col-md-6">
-		<label for="target_price_period" class="form-label">Target Price Period</label>
-		{{ form.target_price_period }}
-	</div>
-
-	<div class="col-12">
-		<button type="submit" class="btn btn-primary">{{ submit_text }}</button>
-		{% if product.id %}
-			<a class="btn btn-danger pull-right" href="{% url 'products:delete' product.id %}" role="button">Delete Product</a>
-		{% endif %}
-	</div>
+	
 
 </form>
 
