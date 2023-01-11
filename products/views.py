@@ -48,7 +48,12 @@ def new(request):
 			return redirect(f'product/{new_product.id}')
 	
 	else:
-		form = ProductForm()
+
+		currency = request.user.profile.currency
+		if not currency:
+			currency = 'EUR'
+
+		form = ProductForm(initial={'currency': currency})
 
 	context = {
 		'form': form,
@@ -181,15 +186,7 @@ def register_user(request):
 	return render(request, 'register_user.html', {'form': form})
 
 def statistics(request):
-	# products = Product.objects.filter(owner=request.user)
-
 	product_filter = request.GET.get('filter', 'active')
-	
-	# if product_filter == 'active':
-	# 	products = products.filter(retirement_date=None)
-	# elif product_filter == 'retired':
-	# 	products = products.exclude(retirement_date=None)
-
 	products = helper.get_user_products_by_filter(request.user, product_filter)
 
 	context = {
