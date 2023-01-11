@@ -1,6 +1,8 @@
 from currency_converter import CurrencyConverter
 from django.contrib.auth.models import User
 
+# from .models import Product
+
 from babel.numbers import format_currency
 import numpy as np
 
@@ -107,3 +109,17 @@ class ProductLifespanHelper():
 			unit = 'years'
 
 		return f'{round(number, 1)} {unit}'
+
+	# Return the products of a given user.
+	# filter_name can be either "active", "retires", or "all".
+	def get_user_products_by_filter(user, filter_name):
+		from .models import Product # Importing here to avoid circular import.
+
+		products = Product.objects.filter(owner=user)
+
+		if filter_name == 'active':
+			products = products.filter(retirement_date=None)
+		elif filter_name == 'retired':
+			products = products.exclude(retirement_date=None)
+
+		return products

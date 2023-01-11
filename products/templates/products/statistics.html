@@ -1,8 +1,8 @@
 <div id="statistics-page">
 
-	<h1>
+	<h2>
 		{{ products|length }} {% if filter == 'all' %}Total{% else %}{{ filter|title }}{% endif %} Product{{products|length|pluralize}}
-	</h1>
+	</h2>
 
 	{% if products|length %}
 

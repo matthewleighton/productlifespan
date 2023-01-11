@@ -127,10 +127,6 @@ th {
 	top: 15px;
 }
 
-a.retired {
-	text-decoration: line-through;
-}
-
 img.retired {
 	filter: grayscale(100%);
 }
@@ -155,7 +151,7 @@ img.retired {
 	margin-top: 2.5em;
 }
 
-#statistics-page h1 {
+#statistics-page h2 {
 	text-align: center;
 }
 
@@ -176,7 +172,7 @@ img.retired {
 }
 
 #statistics-page table {
-	font-size: 1.5em;
+	font-size: 1.25em;
 }
 
 #statistics-page td, #statistics-page th {

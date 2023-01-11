@@ -17,13 +17,14 @@ from pprint import pprint
 from currency_converter import CurrencyConverter
 
 def index(request):
-	current_user_id = request.user.id
+	product_filter = request.GET.get('filter', 'active')
 
-	user_products = Product.objects.filter(owner=current_user_id).order_by('-purchase_date')
+	user_products = helper.get_user_products_by_filter(request.user, product_filter).order_by('-purchase_date')
 
 	context = {
 		'user_products': user_products,
-		'product_list_page': True
+		'product_list_page': True,
+		'filter': product_filter
 	}
 
 	return render(request, 'products/index.html', context)
@@ -176,14 +177,16 @@ def register_user(request):
 	return render(request, 'register_user.html', {'form': form})
 
 def statistics(request):
-	products = Product.objects.filter(owner=request.user)
+	# products = Product.objects.filter(owner=request.user)
 
 	product_filter = request.GET.get('filter', 'active')
 	
-	if product_filter == 'active':
-		products = products.filter(retirement_date=None)
-	elif product_filter == 'retired':
-		products = products.exclude(retirement_date=None)
+	# if product_filter == 'active':
+	# 	products = products.filter(retirement_date=None)
+	# elif product_filter == 'retired':
+	# 	products = products.exclude(retirement_date=None)
+
+	products = helper.get_user_products_by_filter(request.user, product_filter)
 
 	context = {
 		'products': products,
