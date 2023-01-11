@@ -32,6 +32,11 @@ th {
 	cursor: pointer;
 }
 
+#navbar-currency-form {
+	margin-right: 2em;
+	margin-top: 0.5em;
+}
+
 .sortable th {
 	cursor: pointer;
 }
