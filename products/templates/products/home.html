@@ -2,28 +2,29 @@
 {% load static %}
 
 <div class="row justify-content-md-center">
-	<div class="col-md-2">
-		<a class="btn btn-primary new-product-button" href="{% url 'products:new' %}">
-			<span class="new-product-button-span">
-				<span class="large-plus">&#x2b;</span>
-				<span class="new-product-button-text">Add Product</span>
-			</span>
-		</a>
-	</div>
-
-	<div class="col-md-8">
+	
+	<div class="col-md-3">
 		<div class="btn-group mr-2" role="group" aria-label="First group">
-			<a class="btn btn-{% if product_list_page %}primary{% else %}secondary{% endif %}" href="{% url 'products:index' %}?filter={{filter}}">Product List</a>
+			<a class="btn text-nowrap btn-{% if product_list_page %}primary{% else %}secondary{% endif %}" href="{% url 'products:index' %}?filter={{filter}}">Product List</a>
 			<a class="btn btn-{% if statistics_page %}primary{% else %}secondary{% endif %}" href="{% url 'products:statistics' %}?filter={{filter}}">Statistics</a>
 		</div>
 	</div>
 
-	<div class="col-md-2">
+	<div class="col-md-6 text-center">
 		<div class="btn-group mr-2" role="group" aria-label="First group">
 			<a class="btn btn-{% if filter == 'active' %}primary{% else %}secondary{% endif %}" href="{{ request.path }}">Active</a>
 			<a class="btn btn-{% if filter == 'retired' %}primary{% else %}secondary{% endif %}" href="{{ request.path }}?filter=retired">Retired</a>
 			<a class="btn btn-{% if filter == 'all' %}primary{% else %}secondary{% endif %}" href="{{ request.path }}?filter=all">All</a>
 		</div>
+	</div>
+
+	<div class="col-md-3 text-end">
+		<a class="btn btn-success new-product-button" href="{% url 'products:new' %}">
+			<span class="new-product-button-span">
+				<span class="large-plus">&#x2b;</span>
+				<span class="new-product-button-text">Add Product</span>
+			</span>
+		</a>
 	</div>
 </div>
 
