@@ -28,6 +28,10 @@ th {
 	margin-bottom: 30px;
 }
 
+#navbar-currency-form span {
+	cursor: pointer;
+}
+
 .sortable th {
 	cursor: pointer;
 }

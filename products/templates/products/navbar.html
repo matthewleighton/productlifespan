@@ -27,7 +27,9 @@
 		<div>
 			<form id="navbar-currency-form" method="POST" action="{% url 'products:currency' %}">
 				{% csrf_token %}
-				<span>Currency: </span>
+				<span class="tt">
+					<span data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-custom-class="custom-tooltip" data-bs-title="This is the output currency which all prices are display in.">Currency: </span>
+				</span>
 				<select id="navbar-currency-select" onchange="update_currency();" name="currency">
 					{% for c in currencies %}
 						<option value="{{c.0}}" {% if c.0 == user.profile.currency %}selected{% endif %}>{{c.1}}</option>
