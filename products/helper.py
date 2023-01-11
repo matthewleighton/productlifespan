@@ -115,6 +115,9 @@ class ProductLifespanHelper():
 	def get_user_products_by_filter(user, filter_name):
 		from .models import Product # Importing here to avoid circular import.
 
+		if not user.is_authenticated:
+			return Product.objects.none()
+
 		products = Product.objects.filter(owner=user)
 
 		if filter_name == 'active':
