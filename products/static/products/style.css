@@ -186,3 +186,17 @@ img.retired {
 #statistics-page td, #statistics-page th {
 	padding: 1em;
 }
+
+/* https://www.kith.org/jed/2020/04/15/two-ways-to-create-a-question-mark-in-circle-icon/ */
+.in-circle {
+    display: inline-block;
+    background: #0B5ED7;
+    color: #fff;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    font-size: 15px;
+    font-family: Verdana;
+}

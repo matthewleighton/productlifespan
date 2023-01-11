@@ -48,7 +48,6 @@ def new(request):
 			return redirect(f'product/{new_product.id}')
 	
 	else:
-
 		currency = request.user.profile.currency
 		if not currency:
 			currency = 'EUR'

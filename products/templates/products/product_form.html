@@ -57,12 +57,18 @@
 
 	<div class="row d-flex justify-content-center gy-2">
 		<div class="col-md-5">
-			<label for="target_price_amount" class="form-label" autocomplete="off">Target Price Amount</label>
+			<label for="target_price_amount" class="form-label" autocomplete="off">
+				Target Price Amount
+				<span class="in-circle" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="The cost per time period that you want the product to eventually cost.">?</span>
+			</label>
 			{{ form.target_price_amount }}
 		</div>
 
 		<div class="col-md-2">
-			<label for="target_price_period" class="form-label">Target Price Period</label>
+			<label for="target_price_period" class="form-label">
+				Target Price Period
+				<span class="in-circle" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title='Time time period corresponding to the price given in "Target Price Amount".'>?</span>
+			</label>
 			{{ form.target_price_period }}
 		</div>
 	</div>
