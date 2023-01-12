@@ -26,14 +26,16 @@ class ProductForm(forms.ModelForm):
 			widget=forms.NumberInput(attrs={
 				'onchange': 'target_age_changed();',
 				'class': 'form-control',
-				'step': '0.01'
+				'step': '0.01',
+				'autocomplete': 'off'
 			})
 		)
 		self.fields['target_price_amount'] = forms.FloatField(
 			widget=forms.NumberInput(attrs={
 				'onchange': 'target_price_amount_changed();',
 				'class': 'form-control',
-				'step': '0.01'
+				'step': '0.01',
+				'autocomplete': 'off'
 			})
 		)
 		self.fields['target_price_period'] = forms.ChoiceField(
@@ -55,8 +57,8 @@ class ProductForm(forms.ModelForm):
 		currencies = ProductLifespanHelper.get_currencies(select_field=True)
 
 		widgets = {
-			'name': forms.TextInput(attrs={'class': 'form-control'}),
-			'price': forms.NumberInput(attrs={'class': 'form-control'}),
+			'name': forms.TextInput(attrs={'class': 'form-control', 'autocomplete': 'off'}),
+			'price': forms.NumberInput(attrs={'class': 'form-control', 'autocomplete': 'off'}),
 			'purchase_date': forms.DateInput(attrs={'onchange': '', 'type': 'date', 'class': 'form-control'}),
 			'currency': forms.Select(choices=currencies, attrs={'class': 'form-control'}),
 			'image': forms.FileInput(attrs={'class': 'form-control', 'accept': '.jpg, .jpeg, .png'}),
