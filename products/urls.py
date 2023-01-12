@@ -8,9 +8,11 @@ from . import views
 app_name = 'products'
 
 urlpatterns = [
-	# path('admin/', admin.site.urls),
 	path('', views.index, name='index'),
 	path('new', views.new, name='new'),
+
+	# path('product/<slug:username>/<slug:product_key>', views.product_hidden_id, name="product"),
+	
 	path('product/<int:product_id>', views.product, name='product'),
 	path('retire/<int:product_id>', views.retire, name='retire'),
 	path('delete/<int:product_id>', views.delete, name='delete'),

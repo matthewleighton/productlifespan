@@ -12,6 +12,7 @@ from time import perf_counter
 from decimal import Decimal
 from babel.numbers import format_currency
 from currency_converter import CurrencyConverter
+from itertools import count, filterfalse
 
 from pprint import pprint
 
@@ -23,6 +24,7 @@ def get_product_image_location(product, filename):
 
 class Product(models.Model):
 	name 		  = models.CharField('Product Name', max_length=50)
+	product_key	  = models.CharField('Product Key', max_length=110, null=True)
 	purchase_date = models.DateField('Date Purchased')
 	price 		  = models.DecimalField('Product Price', max_digits=9, decimal_places=2)
 	currency 	  = models.CharField('Currency', max_length=3)
@@ -51,6 +53,8 @@ class Product(models.Model):
 		except ObjectDoesNotExist:
 			pass
 
+		self.product_key = self.generate_product_key()
+
 		super(Product, self).save(*args, **kwargs)
 
 	def get_image_url(self):
@@ -63,6 +67,36 @@ class Product(models.Model):
 
 		# Default to placeholder image.
 		return static('products/placeholder_image.png')
+
+	# The product_key is currently unused.
+	# The idea is to use it as a way of linking to products via descriptibe URLs, rather than incremental IDs.
+	def generate_product_key(self):
+		product_key = self.name.replace(' ', '-').lower()
+
+		products = Product.objects.filter(owner=self.owner, product_key__regex=f'^{product_key}[\n]*$')
+
+		# If no product of this user already has the key, then we're done.
+		if not products:
+			return product_key
+
+		pprint(products)
+		print('product_key', product_key)
+
+		# Otherwise, we'll append the digit 1, 2, etc.
+		# We want to append the lowest possible integer, such that the key doesn't already exist.
+		existing_number_strings = [p.product_key.strip(product_key) for p in products]
+		if '' in existing_number_strings:
+			existing_number_strings[existing_number_strings.index('')] = '0'
+		existing_number_strings = [int(i) for i in existing_number_strings]
+
+		# Get lowest integer not in list
+		# https://stackoverflow.com/a/28178803/4897798
+		append_digit = next(filterfalse(set(existing_number_strings).__contains__, count(0)))
+
+		if append_digit == 0:
+			append_digit = ''
+
+		return f"{product_key}{append_digit}"
 
 	def get_current_days_old(self, until_retirement=False):
 		end_date = self.retirement_date if until_retirement else date.today()

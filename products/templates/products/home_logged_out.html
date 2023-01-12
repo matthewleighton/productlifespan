@@ -1,3 +1,76 @@
-<p>You're not logged in.</p>
+{% load static %}	
 
-<p>Click <a href="{% url 'login' %}">here</a> to log in.</p>
+<div id="logged-out-homepage">
+	<h2>Track equivalent monthly cost of purchased items.</h2>
+
+	<div class="row gy-5">
+		<div class="col-md-6">
+			<figure>
+				<img src="{% static 'products/screenshot-1.png' %}" class="homepage-screenshot" />
+				<figcaption class="figure-caption d-md-none">View current price information about each product.</figcaption>
+			</figure>
+		</div>
+		<div class="col-md-6 d-none d-md-block homepage-screenshot-caption">
+			<table>
+				<td class="align-middle">
+					View current price information about each product.
+				</td>
+			</table>
+		</div>
+	</div>
+
+	<div class="row gy-5">
+		<div class="col-md-6 order-md-2">
+			<figure>
+				<img src="{% static 'products/screenshot-2.png' %}" class="homepage-screenshot" />
+				<figcaption class="figure-caption d-md-none">Assign either a retirement date, target age, or target monthly price.</figcaption>
+			</figure>
+		</div>
+		<div class="col-md-6 order-md-1 d-none d-md-block text-end homepage-screenshot-caption">
+			<table>
+				<td class="align-middle">
+					Assign either a retirement date, target age, or target monthly price.
+				</td>
+			</table>
+		</div>
+	</div>
+
+
+	<div class="row gy-5">
+		<div class="col-md-6 order-md-1">
+			<figure>
+				<img src="{% static 'products/screenshot-3.png' %}" class="homepage-screenshot" />
+				<figcaption class="figure-caption d-md-none">View and sort all products.</figcaption>
+			</figure>
+		</div>
+		<div class="col-md-6 order-md-2 d-none d-md-block homepage-screenshot-caption">
+			<table>
+				<td class="align-middle">
+					View and sort all products.
+				</td>
+			</table>
+		</div>
+	</div>
+
+	<div class="row gy-5">
+		<div class="col-md-6 order-md-2">
+			<figure>
+				<img src="{% static 'products/screenshot-4.png' %}" class="homepage-screenshot" />
+				<figcaption class="figure-caption d-md-none">View overall statistics of the products.</figcaption>
+			</figure>
+		</div>
+		<div class="col-md-6 order-md-1 d-none d-md-block text-end homepage-screenshot-caption">
+			<table>
+				<td class="align-middle">
+					View overall statistics of the products.
+				</td>
+			</table>
+		</div>
+	</div>
+
+	<h2 id="call-to-action">
+		<a href="{% url 'products:register' %}">Create Account</a> or view <a href="#">Example Account</a>
+	</h2>
+
+
+</div>

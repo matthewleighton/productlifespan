@@ -5,12 +5,12 @@
 	{{graph_data|json_script:"graph-data"}}
 	
 	<div class="row product-detail-top product-detail-table">
-		<div class="col-md-2">
+		<div class="col-sm-2">
 			{% load static %}
 			<img src="{{ product.get_image_url }}" alt="Placeholder" class="product-image img-fluid">
 		</div>
 
-		<div class="col-md-8">
+		<div class="col-sm-7">
 			<h1>{{ product.name }}</h1>
 			<i>{{ product.format_price }} | Bought {{product.purchase_date}} ({{product.get_days_since_purchase_string}} ago)</i>
 			<br/>
@@ -27,7 +27,7 @@
 			{% endif %}
 
 		</div>
-		<div class="col-md-2">
+		<div class="col-sm-3">
 			<button type="button" class="btn btn-{% if product.is_retired %}success{% else %}danger{% endif %}" id="product-retire-button" onclick="display_retirement_form()">{{ product.get_retire_button_text }}</button>
 			<button type="button" class="btn btn-primary" id="product-edit-toggle-button" onclick="toggle_product_form()">Edit</button>
 		</div>
@@ -35,7 +35,7 @@
 	</div>
 
 	<div class="row d-flex justify-content-center" id="product-detail-middle">
-		<div class="col-md-3">
+		<div class="col-md-4 col-lg-3">
 			<table class="table product-detail-table">
 				{% if product.is_retired %}
 					<caption class="text-center">Price at Retirement</caption>
@@ -59,7 +59,7 @@
 			</table>
 		</div>
 
-		<div class="col-md-3 product-detail-table">
+		<div class="col-md-4 col-lg-3 product-detail-table">
 			<table class="table">
 				<caption class="text-center">Target Price</caption>
 				<tr>
@@ -79,7 +79,7 @@
 			</table>
 		</div>
 
-		<div class="col-md-3 product-detail-table">
+		<div class="col-md-4 col-lg-3 product-detail-table">
 			<table class="table">
 				<caption class="text-center">Price Difference</caption>
 				<tr>
@@ -98,13 +98,6 @@
 				</tr>
 			</table>
 		</div>
-
-
-<!-- 		<div class="col-md-6">
-			<svg id="product-detail-graph"></svg>
-		</div> -->
-
 	</div>
-
 </div>
 

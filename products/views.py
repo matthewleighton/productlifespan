@@ -62,6 +62,7 @@ def new(request):
 
 	return render(request, 'products/new.html', context)
 
+
 def product(request, product_id):
 	product = get_object_or_404(Product, pk=product_id)
 

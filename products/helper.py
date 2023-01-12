@@ -1,8 +1,6 @@
 from currency_converter import CurrencyConverter
 from django.contrib.auth.models import User
 
-# from .models import Product
-
 from babel.numbers import format_currency
 import numpy as np
 
