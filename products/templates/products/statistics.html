@@ -6,10 +6,16 @@
 
 	{% if products|length %}
 
-		<h3>Average Lifespan Completion:</h3>
+		<h3>
+			Average Lifespan Completion:
+			{% if average_lifespan_percentage >= 100 %}
+				{{ average_lifespan_percentage|floatformat }}%
+			{% endif %}
+		</h3>
 		<progress value="{{ average_lifespan_percentage }}" max="100" id="lifespan-progress-bar"></progress>
-		<span id="lifespan-progress-percentage" style="left:{{ average_lifespan_percentage|add:"-1" }}%">{{ average_lifespan_percentage|floatformat }}%</span>
-
+		{% if average_lifespan_percentage < 100 %}
+			<span id="lifespan-progress-percentage" style="left:{{ average_lifespan_percentage|add:"-1" }}%">{{ average_lifespan_percentage|floatformat }}%</span>
+		{% endif %}
 		<div class="row justify-content-md-center">
 			<table class="table">
 				<tr>

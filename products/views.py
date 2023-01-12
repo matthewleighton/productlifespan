@@ -244,6 +244,7 @@ def statistics(request):
 		'average_target_product_age': average_target_product_age,
 
 		'average_lifespan_percentage': average_lifespan_percentage
+
 	})
 
 	return render(request, template, context)
