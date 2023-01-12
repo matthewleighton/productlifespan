@@ -124,3 +124,9 @@ class ProductLifespanHelper():
 			products = products.exclude(retirement_date=None)
 
 		return products
+
+	def is_example_account(request):
+		if request.user.username == 'example_account':
+			return True
+
+		return False

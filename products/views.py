@@ -30,6 +30,10 @@ def index(request):
 	return render(request, 'products/index.html', context)
 
 def new(request):
+	if helper.is_example_account(request):
+		messages.error(request, 'Example User cannot create new products.')
+		return redirect('/')
+
 	if request.method == 'POST':
 		form = ProductForm(request.POST, request.FILES)
 
@@ -71,7 +75,11 @@ def product(request, product_id):
 
 	if request.method == 'POST':
 		form = ProductForm(request.POST, request.FILES, instance=product)
-		
+
+		if helper.is_example_account(request):
+			messages.error(request, 'Example User cannot edit products.')
+			return redirect('/')
+
 		if form.is_valid():
 			product = form.save(commit=False)
 			product.owner = request.user
@@ -106,6 +114,10 @@ def retire(request, product_id):
 	if request.method != 'POST':
 		return redirect('/')
 
+	if helper.is_example_account(request):
+		messages.error(request, 'Example User cannot edit products.')
+		return redirect('/')
+
 
 	submitted_retirement_date = request.POST.get('retirement_date')
 
@@ -125,6 +137,10 @@ def delete(request, product_id):
 
 	if request.user.id != product.owner.id:
 		return redirect('/')
+
+	if helper.is_example_account(request):
+		messages.error(request, 'Example User cannot edit products.')
+		return redirect('/')		
 
 	product_name = product.name
 
@@ -231,3 +247,18 @@ def statistics(request):
 	})
 
 	return render(request, template, context)
+
+def example_account(request):
+	if request.user.is_authenticated:
+		return redirect('/')
+
+	username = "example_account"
+	password = "productlifespan"
+
+	user = authenticate(username=username, password=password)
+
+	login(request, user)
+
+	return redirect('/')
+
+

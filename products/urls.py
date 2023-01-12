@@ -18,7 +18,7 @@ urlpatterns = [
 	path('delete/<int:product_id>', views.delete, name='delete'),
 	path('currency', views.currency, name='currency'),
 	path('statistics', views.statistics, name='statistics'),
-
+	path('example_account', views.example_account, name='example_account'),
 
 	# *static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
