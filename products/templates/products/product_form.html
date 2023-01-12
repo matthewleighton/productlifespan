@@ -4,8 +4,11 @@
 
 	{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-	{{ form.errors }}
-	{{ form.non_field_errors }}
+	{% if form.non_field_errors %}
+		<div class="alert alert-danger">
+			{{ form.non_field_errors }}
+		</div>
+	{% endif %}
 
 	{% csrf_token %}
 
@@ -72,7 +75,6 @@
 			{{ form.target_price_period }}
 		</div>
 	</div>
-	
 
 	<div class="row d-flex justify-content-center gy-3">
 		<div class="col-7">
@@ -83,9 +85,6 @@
 		</div>
 	</div>
 	
-
-	
-
 </form>
 
 {% load static %}

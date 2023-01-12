@@ -64,3 +64,4 @@ var product_edit_button_original_text = product_edit_button.innerHTML;
 
 var retirement_form = document.getElementById('product-retirement-form');
 var retirement_date_field = document.getElementsByName('retirement_date')[0]; 
+

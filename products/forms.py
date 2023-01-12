@@ -46,6 +46,14 @@ class ProductForm(forms.ModelForm):
 			})
 		)
 
+	def clean(self):
+		cleaned_data = super().clean()
+		price = cleaned_data.get('price')
+
+		if price <= 0:
+			raise forms.ValidationError('Price must be greater than zero.')
+
+
 	class Meta:
 		model = Product
 
