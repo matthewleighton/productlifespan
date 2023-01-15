@@ -13,7 +13,7 @@ td a {
 }
 
 td a:hover {
-	color: #9ab;
+	color: inherit;
 }
 
 caption {
