@@ -110,6 +110,10 @@ th {
 	margin-top: 20px;
 }
 
+.product-list-table th {
+	vertical-align: middle;
+}
+
 .product-detail-top {
 	margin-bottom: 70px;
 }
