@@ -1,6 +1,6 @@
 {% load products_extras %}
 
-<div class="product_detail {{product.detail_section_css_class}}">
+<div class="product-detail {{product.detail_section_css_class}}">
 
 	{{graph_data|json_script:"graph-data"}}
 	
@@ -34,7 +34,44 @@
 
 	</div>
 
-	<div class="row d-flex justify-content-center" id="product-detail-middle">
+	<div class="row justify-content-md-center">
+		<div class="col-12 col-lg-8">
+			<table class="table table-striped table-dark">
+				<tr>
+					<th></th>
+					<th>Current</th>
+					<th>Target</th>
+					<th>Difference</th>
+				</tr>
+				<tr>
+					<th>Daily</th>
+					<td>{% get_period_price product 'day' 'current' %}</td>
+					<td>{% get_period_price product 'day' 'target' %}</td>
+					<td>{% get_period_price_difference product 'day' %}</td>
+				</tr>
+				<tr>
+					<th>Weekly</th>
+					<td>{% get_period_price product 'week' 'current' %}</td>
+					<td>{% get_period_price product 'week' 'target' %}</td>
+					<td>{% get_period_price_difference product 'week' %}</td>
+				</tr>
+				<tr>
+					<th>Monthly</th>
+					<td>{% get_period_price product 'month' 'current' %}</td>
+					<td>{% get_period_price product 'month' 'target' %}</td>
+					<td>{% get_period_price_difference product 'month' %}</td>
+				</tr>
+				<tr>
+					<th>Yearly</th>
+					<td>{% get_period_price product 'year' 'current' %}</td>
+					<td>{% get_period_price product 'year' 'target' %}</td>
+					<td>{% get_period_price_difference product 'year' %}</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+	<!-- <div class="row d-flex justify-content-center" id="product-detail-middle">
 		<div class="col-md-4 col-lg-3">
 			<table class="table product-detail-table">
 				{% if product.is_retired %}
@@ -98,6 +135,6 @@
 				</tr>
 			</table>
 		</div>
-	</div>
+	</div> -->
 </div>
 

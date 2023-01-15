@@ -9,7 +9,7 @@ td {
 }
 
 td a {
-	color: #9ab;
+	color: inherit;
 }
 
 td a:hover {
@@ -114,6 +114,12 @@ th {
 	vertical-align: middle;
 }
 
+.product-detail table td, .product-detail table th {
+	height: 3.5em;
+	text-align: center;
+	vertical-align: middle;
+}
+
 .product-detail-top {
 	margin-bottom: 70px;
 }
@@ -166,10 +172,6 @@ th {
 
 .product-list-table thead tr {
 	height: 20px;
-}
-
-.product-list-table td, .product-list-table th {
-/*	text-align: center;*/
 }
 
 .retired-product-table-label {
