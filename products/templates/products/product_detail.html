@@ -34,7 +34,7 @@
 
 	</div>
 
-	<div class="row justify-content-md-center">
+	<div class="row justify-content-md-center" id="product-detail-middle">
 		<div class="col-12 col-lg-8">
 			<table class="table table-striped table-dark">
 				<tr>
@@ -71,70 +71,4 @@
 		</div>
 	</div>
 
-	<!-- <div class="row d-flex justify-content-center" id="product-detail-middle">
-		<div class="col-md-4 col-lg-3">
-			<table class="table product-detail-table">
-				{% if product.is_retired %}
-					<caption class="text-center">Price at Retirement</caption>
-				{% else %}
-					<caption class="text-center">Current Price</caption>
-				{% endif %}
-				<tr>
-					<td>Daily</td>
-					<td>{% get_period_price product 'day' 'current' %}</td>
-				</tr>
-				<tr>
-					<td>Weekly</td>
-					<td>{% get_period_price product 'week' 'current' %}</td>
-				</tr><tr>
-					<td>Monthly</td>
-					<td>{% get_period_price product 'month' 'current' %}</td>
-				</tr><tr>
-					<td>Yearly</td>
-					<td>{% get_period_price product 'year' 'current' %}</td>
-				</tr>
-			</table>
-		</div>
-
-		<div class="col-md-4 col-lg-3 product-detail-table">
-			<table class="table">
-				<caption class="text-center">Target Price</caption>
-				<tr>
-					<td>Daily</td>
-					<td>{% get_period_price product 'day' 'target' %}</td>
-				</tr>
-				<tr>
-					<td>Weekly</td>
-					<td>{% get_period_price product 'week' 'target' %}</td>
-				</tr><tr>
-					<td>Monthly</td>
-					<td>{% get_period_price product 'month' 'target' %}</td>
-				</tr><tr>
-					<td>Yearly</td>
-					<td>{% get_period_price product 'year' 'target' %}</td>
-				</tr>
-			</table>
-		</div>
-
-		<div class="col-md-4 col-lg-3 product-detail-table">
-			<table class="table">
-				<caption class="text-center">Price Difference</caption>
-				<tr>
-					<td>Daily</td>
-					<td>{% get_period_price_difference product 'day' %}</td>
-				</tr>
-				<tr>
-					<td>Weekly</td>
-					<td>{% get_period_price_difference product 'week' %}</td>
-				</tr><tr>
-					<td>Monthly</td>
-					<td>{% get_period_price_difference product 'month' %}</td>
-				</tr><tr>
-					<td>Yearly</td>
-					<td>{% get_period_price_difference product 'year' %}</td>
-				</tr>
-			</table>
-		</div>
-	</div> -->
 </div>
-
