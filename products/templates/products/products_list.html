@@ -5,7 +5,7 @@
 	{% if user_products|length %}
 		<table class="table sortable product-list-table">
 			<tr>
-				<th class="sorttable_nosort"></th>
+				<th class="sorttable_nosort d-none d-sm-table-cell"></th>
 				<th>Name</th>
 				<th>Price</th>
 				<th class="purchase_date_th">Purchase Date</th>
@@ -13,7 +13,7 @@
 			</tr>
 			{% for product in user_products %}
 				<tr class="{{ product.get_retired_table_class }}">
-					<td class="td-product-image">
+					<td class="td-product-image d-none d-sm-table-cell">
 						<a href="{% url 'products:product' product.id %}">
 							<img src="{{ product.get_image_url }}" alt="Placeholder" class="product-image-small img-fluid {{ product.get_retired_table_class }}">
 						</a>
