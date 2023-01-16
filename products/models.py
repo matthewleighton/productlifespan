@@ -79,9 +79,6 @@ class Product(models.Model):
 		if not products:
 			return product_key
 
-		pprint(products)
-		print('product_key', product_key)
-
 		# Otherwise, we'll append the digit 1, 2, etc.
 		# We want to append the lowest possible integer, such that the key doesn't already exist.
 		existing_number_strings = [p.product_key.strip(product_key) for p in products]

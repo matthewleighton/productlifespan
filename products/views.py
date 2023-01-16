@@ -88,6 +88,8 @@ def product(request, product_id):
 			product.target_end_date = target_end_date
 			
 			product.save()
+			messages.success(request, f'Product "{product.name}" updated.')
+
 
 	else:
 		form = ProductForm(instance=product)

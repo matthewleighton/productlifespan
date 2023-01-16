@@ -50,8 +50,15 @@ class ProductForm(forms.ModelForm):
 		cleaned_data = super().clean()
 		price = cleaned_data.get('price')
 
+		purchase_date = cleaned_data.get('purchase_date')
+		target_end_date = cleaned_data.get('target_end_date')
+
 		if price <= 0:
 			raise forms.ValidationError('Price must be greater than zero.')
+
+		if target_end_date < purchase_date:
+			raise forms.ValidationError('Target End Date must be later than Purchase Date.')
+
 
 
 	class Meta:
