@@ -5,6 +5,7 @@ body {
 
 td {
 	color: #9ab;
+/*	color: white;*/
 	vertical-align: middle;
 }
 
@@ -18,10 +19,12 @@ td a:hover {
 
 caption {
 	color: #9ab;
+/*	color: white;*/
 }
 
 th {
 	color: #9ab;
+/*	color: white;*/
 }
 
 .navbar {
@@ -172,6 +175,11 @@ th {
 
 .product-list-table thead tr {
 	height: 20px;
+}
+
+#product-list-page h2 {
+	text-align: center;
+	margin-top: 3em;
 }
 
 .retired-product-table-label {

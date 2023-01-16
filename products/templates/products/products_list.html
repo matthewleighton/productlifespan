@@ -31,7 +31,7 @@
 			{% endfor %}
 		</table>
 	{% else %}
-		<p>You don't have any products.</p>
+		<h2>You don't have any {% if filter == 'retired' %}retired{% endif %} products.</h2>
 	{% endif %}	
 </div>
 
