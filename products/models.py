@@ -95,16 +95,6 @@ class Product(models.Model):
 
 		return f"{product_key}{append_digit}"
 
-	def get_current_days_old(self, until_retirement=False):
-		end_date = self.retirement_date if until_retirement else date.today()
-
-		today = date.today()
-		purchase_date = self.purchase_date
-
-		days_old = (end_date - purchase_date).days
-
-		return days_old
-
 	# Return the product's age in days. Either its current age, or target age at retirement.
 	def get_age_days(self, when='current'):
 		if when == 'target':
@@ -122,13 +112,12 @@ class Product(models.Model):
 			return (date.today() - self.purchase_date).days
 
 	def get_days_since_purchase_string(self):
-		days_old = self.get_current_days_old()
+		days_old = self.get_current_lifespan_days()
 
 		return helper.format_days_to_best_unit(days_old)
 
 	def get_lifetime_string(self):
-		until_retirement = True if self.is_retired() else False
-		days_old = self.get_current_days_old(until_retirement)
+		days_old = self.get_current_lifespan_days()
 
 		return helper.format_days_to_best_unit(days_old)
 
@@ -201,17 +190,13 @@ class Product(models.Model):
 
 		return period_price
 
-
 	def get_target_daily_price(self):
 		total_lifespan_days = self.get_total_lifespan_days()
 		return self.price / total_lifespan_days
 
 	def get_current_daily_price(self):
-		until_retirement = True if self.is_retired() else False
-
-		days_old = self.get_current_days_old(until_retirement)
+		days_old = self.get_current_lifespan_days()
 		return self.price / days_old
-
 
 	def get_period_price_difference(self, period, convert_currency=True, format_price=True):
 		current_price = self.get_period_price(period=period, when='current', convert_currency=convert_currency, format_price=False)
